@@ -57,6 +57,7 @@ alias uni="cd $UNI"
 alias sb="cd $SECOND_BRAIN"
 alias scripts="cd $SCRIPTS"
 alias startup="cd $STARTUP"
+alias dot="cd $DOTFILES"
 
 # ricing
 alias es="v $SCRIPTS"
