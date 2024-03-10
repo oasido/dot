@@ -8,7 +8,7 @@ export STARTUP="$HOME/.config/autostart"
 export NVM_DIR="$HOME/.nvm"
 export GO="/usr/local/go/bin"
 export TURSO="$HOME/.turso"
-export DOTFILES="$HOME/Documents/dotfiles"
+export DOTFILES="$HOME/Sync/dot"
 
 if [[ $- == *i* ]]; then
 	bind '"\C-f":"tmux-sessionizer\n"'
