@@ -1,0 +1,18 @@
+[Unit]
+Description = Add a pipewire stereo sink named %i
+
+After = pipewire.service
+
+[Service]
+Type = oneshot
+
+StandardOutput = journal
+
+ExecStart = /bin/sh -c 'pactl load-module module-null-sink media.class=Audio/Sink sink_name="%i" channel_map=stereo > %h/.cache/pipewire_sink_stereo_%i'
+ExecStopPost = -/bin/sh -c 'pactl unload-module $(cat %h/.cache/pipewire_sink_stereo_%i)'
+ExecStopPost = -/bin/rm %h/.cache/pipewire_sink_stereo_%i
+
+RemainAfterExit = true
+
+[Install]
+WantedBy = default.target

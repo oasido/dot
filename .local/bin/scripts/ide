@@ -1,0 +1,5 @@
+#!/bin/bash
+tmux neww -n 'app'
+tmux split-window -v -p 50
+tmux neww -n 'git'
+tmux select-window -t:1
