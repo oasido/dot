@@ -1,0 +1,2 @@
+#!/bin/sh
+pw-jack carla -n ~/Sync/audio-setup.carxp
