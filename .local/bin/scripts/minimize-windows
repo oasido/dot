@@ -1,0 +1,9 @@
+#!/bin/sh
+sleep 5
+xdotool search --onlyvisible --classname reaper windowminimize
+xdotool search --onlyvisible --classname ksnip windowclose
+# xdotool search --onlyvisible --classname surfshark windowminimize
+
+xdotool search --onlyvisible --classname reaper windowminimize
+xdotool search --onlyvisible --classname ksnip windowclose
+# xdotool search --onlyvisible --classname surfshark windowminimize
