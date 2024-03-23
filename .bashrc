@@ -67,6 +67,10 @@ alias eb="v $HOME/.bashrc"
 alias sz="source $HOME/.zshrc"
 alias sbr="source $HOME/.bashrc"
 
+if [ -f ~/.personal_aliases ]; then
+	. ~/.personal_aliases
+fi
+
 if [ -f ~/.work_aliases ]; then
 	. ~/.work_aliases
 fi
@@ -132,7 +136,8 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-  PROMPT_COMMAND='PS1_CMD1=$(__git_ps1 "(%s) ")'; PS1='\[\e[38;5;40m\][\[\e[38;5;33m\]\u\[\e[0m\]@\[\e[38;5;250m\]\h\[\e[0m\] \W\[\e[38;5;40m\]]\[\e[0m\]\\$ \[\e[38;5;34m\]${PS1_CMD1}\[\e[0m\]'
+	PROMPT_COMMAND='PS1_CMD1=$(__git_ps1 "(%s) ")'
+	PS1='\[\e[38;5;40m\][\[\e[38;5;33m\]\u\[\e[0m\]@\[\e[38;5;250m\]\h\[\e[0m\] \W\[\e[38;5;40m\]]\[\e[0m\]\\$ \[\e[38;5;34m\]${PS1_CMD1}\[\e[0m\]'
 else
 	PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
