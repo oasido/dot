@@ -97,8 +97,10 @@ shopt -s histappend
 PROMPT_COMMAND='history -a'
 
 # ~~~~~~~~~~~~~~~ Other ~~~~~~~~~~~~~~~~~~~~~~~~
+# search through history with up/down arrows
+bind '"\e[A": history-search-backward' 2>/dev/null
+bind '"\e[B": history-search-forward' 2>/dev/null
 
-##
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
