@@ -67,6 +67,10 @@ alias eb="v $HOME/.bashrc"
 alias sz="source $HOME/.zshrc"
 alias sbr="source $HOME/.bashrc"
 
+# lynx
+alias ?="duck"
+alias ??="google"
+
 if [ -f ~/.personal_aliases ]; then
 	. ~/.personal_aliases
 fi
