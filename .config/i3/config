@@ -14,6 +14,7 @@ exec --no-startup-id nm-applet
 exec --no-startup-id sxhkd
 exec --no-startup-id compton
 exec --no-startup-id ~/.dot/.local/bin/scripts/audio-setup
+exec_always setxkbmap -option 'caps:ctrl_modifier'
 
 # Autostart applications
 exec --no-startup-id flatpak run dev.vencord.Vesktop
