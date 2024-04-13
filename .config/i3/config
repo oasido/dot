@@ -14,8 +14,8 @@ exec --no-startup-id nm-applet
 exec --no-startup-id sxhkd
 exec --no-startup-id compton
 exec --no-startup-id ~/.dot/.local/bin/scripts/audio-setup
-exec_always setxkbmap -option 'caps:ctrl_modifier'
-exec_always --no-startup-id nitrogen --restore
+exec --no-startup-id setxkbmap -layout us,il -option 'caps:ctrl_modifier,grp:alt_shift_toggle'
+exec --no-startup-id nitrogen --restore
 
 # Autostart applications
 exec --no-startup-id flatpak run dev.vencord.Vesktop
@@ -24,6 +24,7 @@ exec --no-startup-id flatpak run org.telegram.desktop
 floating_modifier $mod
 
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+bindsym $mod+Escape exec i3lock --color 000000 --show-failed-attempts
 
 for_window [class="^.*"] border pixel 2
 for_window [class="^.*"] client.focused

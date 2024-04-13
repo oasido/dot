@@ -27,3 +27,5 @@ assign [class="steam"] $ws9
 assign [class="REAPER|pavucontrol"] $ws10
 
 for_window [class="vol|ttrm|mus|fm|news"] floating enable, resize set 1000 600, move scratchpad, border pixel 0
+
+for_window [class="crx_nngceckbapebfimnlniiiahkandclblb"] floating enable

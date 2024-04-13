@@ -66,8 +66,9 @@ super + shift + {c,r}
 super + shift + e
     i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'
 
-super + Escape
-  i3lock
+# Lock
+# super + Escape
+#     i3lock --color 000000 --show-failed-attempts
 
 # Resize mode
 super + r
@@ -102,7 +103,7 @@ XF86AudioPrev
 
 # Keyboard layout toggle
 alt + shift
-    setxkbmap -layout us,il -option grp:alt_shift_toggle
+    setxkbmap -layout us,il -option 'caps:ctrl_modifier,grp:alt_shift_toggle'
 
 # Brightness
 XF86MonBrightnessUp 
