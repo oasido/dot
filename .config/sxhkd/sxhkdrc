@@ -12,7 +12,8 @@ super + Return
 
 # Close focused window
 super + shift + q
-    i3-msg [con_id="__focused__"] kill
+    i3-msg kill
+
 
 # Program launcher
 super + d
@@ -52,11 +53,11 @@ super + {a,d}
 
 # Workspace switching
 super + {1-9,0}
-    i3-msg workspace number {1-9,10}
+    i3-msg workspace number {1: >_,2: Web,3,4,5,6,7,8,9: Comms,10}
 
 # Move container to workspace
 super + shift + {1-9,0}
-    i3-msg move container to workspace number {1-9,10}
+    i3-msg move container to workspace number {1: >_,2: Web,3,4,5,6,7,8: Comms,9,10}
 
 # Reload and restart i3
 super + shift + {c,r}
