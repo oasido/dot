@@ -2,8 +2,8 @@ include $HOME/.config/i3/theme
 include $HOME/.config/i3/workspaces
 
 set $mod Mod4
-set $primary DP-2
-set $secondary DP-0
+set $primary "DP-2"
+set $secondary "DP-0"
 
 # font pango:monospace 12
 font pango:JetBrains Mono 12
