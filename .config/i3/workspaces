@@ -13,16 +13,16 @@ set $ws11 "11"
 set $ws12 "12"
 
 workspace $ws1 output $primary
-workspace $ws2 output $secondary
+workspace $ws2 output $secondary  
 workspace $ws3 output $secondary
 workspace $ws4 output $secondary
 workspace $ws9 output $primary
 workspace $ws10 output $secondary
 
 assign [class="Alacritty|gnome-terminal-server"] $ws1
-assign [class="chromium-browser|LibreWolf"] $ws2
+assign [class="Chromium|LibreWolf"] $ws2
 assign [class="docker desktop"] $ws3
-assign [class="vesktop|discord|telegram-desktop"] $ws4
+assign [class="vesktop|discord|TelegramDesktop"] $ws4
 assign [class="steam"] $ws9
 assign [class="REAPER|pavucontrol"] $ws10
 
