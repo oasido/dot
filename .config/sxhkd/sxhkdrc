@@ -87,7 +87,7 @@ XF86AudioMute
 
 # Toggle microphone mute with specific source ID
 XF86Launch5
-    pulsemixer --id source-$(pulsemixer --list-sources | grep -i "RODE NT-USB Analog Stereo" | sed -n 's/.*ID: source-\([0-9]*\).*/\1/p') --toggle-mute
+    ~/.local/bin/scripts/toggle_mic
 
 # Media controls
 XF86AudioPlay
