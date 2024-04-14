@@ -20,6 +20,7 @@ exec --no-startup-id nitrogen --restore
 # Autostart applications
 exec --no-startup-id flatpak run dev.vencord.Vesktop
 exec --no-startup-id flatpak run org.telegram.desktop
+exec --no-startup-id flatpak run me.kozec.syncthingtk
 
 floating_modifier $mod
 
