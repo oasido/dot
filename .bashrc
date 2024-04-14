@@ -58,6 +58,7 @@ alias sb="cd $SECOND_BRAIN"
 alias scripts="cd $SCRIPTS"
 alias startup="cd $STARTUP"
 alias dot="cd $DOTFILES"
+alias dotc="cd $DOTFILES/.config && v"
 
 # ricing
 alias es="v $SCRIPTS"
