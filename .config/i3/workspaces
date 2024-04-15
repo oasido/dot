@@ -20,7 +20,7 @@ assign [class="Alacritty|gnome-terminal-server"] $ws1
 assign [class="Chromium|LibreWolf"] $ws2
 assign [class="Docker Desktop|Antares"] $ws3
 assign [class="vesktop|discord|TelegramDesktop"] $ws9
-assign [class="REAPER"] $ws10
+assign [class="REAPER|Syncthing GTK"] $ws10
 
 for_window [class="vol|ttrm|mus|fm|news"] floating enable, resize set 1000 600, move scratchpad, border pixel 0
 for_window [class="crx_nngceckbapebfimnlniiiahkandclblb"] floating enable, resize set 1000 600, move scratchpad, border pixel 0 # bitwarden extension
