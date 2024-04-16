@@ -9,11 +9,12 @@ super + Return
     alacritty
 
 # --- i3wm ---
+super + shift + v
+    rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
 
 # Close focused window
 super + shift + q
     i3-msg kill
-
 
 # Program launcher
 super + d
