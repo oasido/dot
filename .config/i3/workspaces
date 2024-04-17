@@ -17,7 +17,7 @@ workspace $ws9 output $secondary
 workspace $ws10 output $secondary
 
 assign [class="Alacritty|gnome-terminal-server"] $ws1
-assign [class="Chromium|LibreWolf"] $ws2
+assign [class="Chromium"] $ws2
 assign [class="Docker Desktop|Antares"] $ws3
 assign [class="vesktop|discord|TelegramDesktop"] $ws9
 assign [class="REAPER|Syncthing GTK"] $ws10

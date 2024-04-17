@@ -16,6 +16,7 @@ exec --no-startup-id picom
 exec --no-startup-id ~/.dot/.local/bin/scripts/audio-setup
 exec --no-startup-id setxkbmap -layout us,il -option 'caps:ctrl_modifier,grp:alt_shift_toggle'
 exec --no-startup-id nitrogen --restore
+exec --no-startup-id greenclip daemon
 
 # Autostart applications
 exec --no-startup-id flatpak run dev.vencord.Vesktop
