@@ -25,4 +25,5 @@ assign [class="REAPER|Syncthing GTK"] $ws10
 for_window [class="vol|ttrm|mus|fm|news"] floating enable, resize set 1000 600, move scratchpad, border pixel 0
 for_window [class="crx_nngceckbapebfimnlniiiahkandclblb"] floating enable, resize set 1000 600, move scratchpad, border pixel 0 # bitwarden extension
 for_window [class="Pavucontrol"] floating enable, resize set width 445 px height 418 px, move position 1540 px 990 px
+for_window [class="TelegramDesktop"] resize set width 825 px
 
