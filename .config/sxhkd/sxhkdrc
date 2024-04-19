@@ -68,9 +68,9 @@ super + shift + {c,r}
 super + shift + e
     i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'
 
-# Lock
+# Lock & Screen off
 super + Escape
-    i3lock --color 000000 --show-failed-attempts
+    i3lock --color 0f172a --show-failed-attempts && sleep 1 && xset dpms force off
 
 # Resize mode
 super + r
