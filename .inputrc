@@ -1,2 +1,6 @@
 $include /etc/inputrc
 set completion-ignore-case On
+
+# Ctrl + Del/Backspace to delete word
+"\e[3;5~": shell-kill-word # ctrl+delete
+"\C-H": shell-backward-kill-word # ctrl+backspace

@@ -1,13 +1,13 @@
 set $ws0 "0"
 set $ws1 "1: >_"
-set $ws2 "2: Web"
+set $ws2 "2: web"
 set $ws3 "3"
 set $ws4 "4"
 set $ws5 "5"
 set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
-set $ws9 "9: Comms"
+set $ws9 "9: comms"
 set $ws10 "10"
 
 workspace $ws1 output $primary
@@ -15,6 +15,8 @@ workspace $ws2 output $secondary
 workspace $ws3 output $secondary
 workspace $ws9 output $secondary
 workspace $ws10 output $secondary
+
+workspace $ws9 layout tabbed
 
 assign [class="Alacritty|gnome-terminal-server"] $ws1
 assign [class="Chromium"] $ws2
@@ -28,4 +30,3 @@ for_window [class="vol|ttrm|mus|fm|news"] floating enable, resize set 1000 600, 
 for_window [class="crx_nngceckbapebfimnlniiiahkandclblb"] floating enable, resize set 1000 600, move scratchpad, border pixel 0 # bitwarden extension
 for_window [class="Pavucontrol"] floating enable, resize set width 445 px height 418 px, move position 1540 px 990 px
 for_window [class="TelegramDesktop"] resize set width 830 px
-
