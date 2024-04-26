@@ -78,7 +78,7 @@ super + shift + e
 
 # Lock & Screen off
 super + Escape
-    i3lock --color 0f172a --show-failed-attempts && sleep 1 && xset dpms force off
+    i3lock --color 0f172a --show-failed-attempts && sleep 2 && xset dpms force off && sleep 2 && ~/.local/bin/scripts/idle_monitor &
 
 # Resize mode
 super + r
