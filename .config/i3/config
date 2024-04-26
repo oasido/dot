@@ -22,12 +22,13 @@ exec --no-startup-id greenclip daemon
 exec --no-startup-id flatpak run dev.vencord.Vesktop
 exec --no-startup-id flatpak run org.telegram.desktop
 exec --no-startup-id flatpak run me.kozec.syncthingtk
+exec --no-startup-id flatpak run io.gitlab.librewolf-community
+exec --no-startup-id flatpak run com.spotify.Client 
 
 floating_modifier $mod
 
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 # bindsym $mod+r exec i3-input -F 'rename workspace to "%s"' -P 'New name: '
-# bindsym $mod+Escape exec i3lock --color 000000 --show-failed-attempts
 
 for_window [class="^.*"] border pixel 2
 for_window [class="^.*"] client.focused
