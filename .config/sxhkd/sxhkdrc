@@ -64,6 +64,10 @@ super + shift + {1-9,0}
 control + shift + Up
     i3-msg move workspace to output next
 
+# Move current container to next output
+control + shift + Down
+    i3-msg move container to output next
+
 # Reload and restart i3
 super + shift + {c,r}
     i3-msg {reload,restart}
