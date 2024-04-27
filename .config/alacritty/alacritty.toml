@@ -6,6 +6,9 @@ size = 16
 [font.normal]
 family = "JetBrains Mono"
 
+[window]
+opacity = 0.95
+
 [window.padding]
 x = 7
 y = 1
