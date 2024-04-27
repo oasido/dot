@@ -13,6 +13,8 @@ set $ws10 "10"
 workspace $ws1 output $primary
 workspace $ws2 output $secondary  
 workspace $ws3 output $secondary
+workspace $ws4 output $secondary
+workspace $ws8 output $secondary
 workspace $ws9 output $secondary
 workspace $ws10 output $secondary
 
