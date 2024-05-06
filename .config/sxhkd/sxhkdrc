@@ -100,7 +100,7 @@ XF86Launch5
 
 # Media controls
 XF86AudioPlay
-    playerctl play
+    ~/.local/bin/scripts/toggle_play_pause
 
 XF86AudioPause
     playerctl pause
