@@ -1,7 +1,7 @@
 # import = ["~/.config/alacritty/themes/themes/gnome_terminal.toml"]
 
 [font]
-size = 16
+size = 14
 
 [font.normal]
 family = "JetBrains Mono"
