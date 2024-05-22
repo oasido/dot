@@ -49,3 +49,6 @@ blue       = '#2a7bde'
 magenta    = '#c061cb'
 cyan       = '#33c7de'
 white      = '#ffffff'
+
+[env]
+TERM = "xterm-256color"

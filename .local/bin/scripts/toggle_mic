@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source_id=$(pulsemixer --list-sources | grep -i "RODE NT-USB Analog Stereo" | sed -n 's/.*ID: source-\([0-9]*\).*/\1/p')
+source_id=$(pulsemixer --list-sources | grep -i "Name: RODE NT-USB Analog Stereo" | sed -n 's/.*ID: source-\([0-9]*\).*/\1/p')
 virtual_id=$(pulsemixer --list-sources | grep -i "virtual-microphone" | sed -n 's/.*ID: source-\([0-9]*\).*/\1/p')
 
 pulsemixer --id source-$source_id --toggle-mute
@@ -9,8 +9,8 @@ pulsemixer --id source-$virtual_id --set-volume 100
 mute_status=$(pulsemixer --get-mute --id source-$source_id)
 
 if [ "$mute_status" -eq 0 ]; then
-    notify-send --icon=gtk-info Test "Microphone unmuted"
+    notify-send --icon=gtk-info "Microphone unmuted"
 else
-    notify-send --icon=gtk-info Test "Microphone muted"
+    notify-send --icon=gtk-info "Microphone muted"
 fi
 

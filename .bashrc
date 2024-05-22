@@ -37,7 +37,7 @@ alias neovim="nvim"
 alias c="clear"
 alias pn="pnpm"
 alias rm="trash"
-alias sysupdate="sudo apt update && sudo apt full-upgrade"
+alias sysupdate="sudo zypper ref && sudo zypper update"
 alias lg="lazygit"
 alias flatls="flatpak list --app --columns=size,name|sort -g | grep MB"
 alias fpe="fzf --preview 'bat --color=always --style=numbers --line-range=:500 {}' | xargs nvim"
@@ -197,3 +197,7 @@ case ":$PATH:" in
 *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/home/oasido/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)

@@ -1,123 +1,20 @@
 super + F1
     pkill -USR1 -x sxhkd
 
+super  + Return
+    alacritty
+
 super + shift + Return
-    nemo
+    dolphin
 
 # Terminal
 super + Return
     alacritty
 
-# --- i3wm ---
-super + shift + v
-    rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
-
-# Close focused window
-super + shift + q
-    i3-msg kill
-
-# Program launcher
-super + d
-    rofi -show drun
-
-# Change focus
-super + {Left,Down,Up,Right}
-    i3-msg focus {left,down,up,right}
-
-# Move focused window
-super + shift + {Left,Down,Up,Right}
-    i3-msg move {left,down,up,right}
-
-# Split orientation
-super + {h,v}
-    i3-msg split {horizontal,vertical}
-
-# Fullscreen toggle for focused container
-super + f
-    i3-msg fullscreen toggle
-
-# Layout change
-super + {s,w,e}
-    i3-msg layout {stacking,tabbed,toggle split}
-
-# Floating toggle
-super + shift + space
-    i3-msg floating toggle
-
-# Focus mode toggle
-super + space
-    i3-msg focus mode_toggle
-
-# Focus parent/child container
-super + {a,d}
-    i3-msg focus {parent,child}
-
-# Workspace switching
-super + {1-9,0}
-    i3-msg workspace number {"1: >_","2: web","3","4","5","6","7","8","9: comms","10"}
-
-# Move container to workspace
-super + shift + {1-9,0}
-    i3-msg move container to workspace number {"1: >_","2: web","3","4","5","6","7","8","9: comms","10"}
-
-# Move current workspace to next output
-control + shift + Up
-    i3-msg move workspace to output next
-
-# Move current container to next output
-control + shift + Down
-    i3-msg move container to output next
-
-# Reload and restart i3
-super + shift + {c,r}
-    i3-msg {reload,restart}
-
-# Exit i3
-super + shift + e
-    i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'
-
-# Lock & Screen off
-super + Escape
-    i3lock --color 0f172a --show-failed-attempts && sleep 2 && xset dpms force off && sleep 2 && ~/.local/bin/scripts/idle_monitor &
-
-# Resize mode
-super + r
-    i3-msg mode "resize"
-
-# Volume adjustments
-XF86AudioRaiseVolume
-    pulsemixer --change-volume +5 --max-volume 100; pkill -SIGUSR1 i3status
-
-XF86AudioLowerVolume
-    pulsemixer --change-volume -5 --max-volume 100; pkill -SIGUSR1 i3status
-
-XF86AudioMute
-    pactl set-sink-mute @DEFAULT_SINK@ toggle; pkill -SIGUSR1 i3status
-
 # Toggle microphone mute with specific source ID
 XF86Launch5
     ~/.local/bin/scripts/toggle_mic
 
-# Media controls
-XF86AudioPlay
-    ~/.local/bin/scripts/toggle_play_pause
-
-XF86AudioPause
-    playerctl pause
-
-XF86AudioNext
-    playerctl next
-
-XF86AudioPrev
-    playerctl previous
-
-# Keyboard layout toggle
-alt + shift
-    setxkbmap -layout us,il -option 'caps:ctrl_modifier,grp:alt_shift_toggle'
-
-# Brightness
-XF86MonBrightnessUp 
-    xbacklight -inc 20
-XF86MonBrightnessDown 
-    xbacklight -dec 20
-
+# Lock & Screen off
+super + Escape
+    sleep 10 && xset dpms force off
