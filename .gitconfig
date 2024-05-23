@@ -1,0 +1,6 @@
+[user]
+	name = oasido
+	email = asido.ofek@gmail.com
+[alias]
+  fix-perms = "!~/.local/bin/scripts/git-fix-perms"
+ 
