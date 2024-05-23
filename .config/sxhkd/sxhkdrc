@@ -16,5 +16,5 @@ XF86Launch5
     ~/.local/bin/scripts/toggle_mic
 
 # Lock & Screen off
-super + Escape
-    sleep 10 && xset dpms force off
+# super + Escape
+#     loginctl lock-session && sleep 5 && ~/.local/bin/scripts/idle_monitor &

@@ -1,22 +1,23 @@
 #!/bin/bash
 
-is_i3lock_running() {
-	pgrep -x i3lock >/dev/null
+is_screen_locked() {
+    loginctl show-session $(loginctl | grep $(whoami) | awk '{print $1}') -p LockedHint | grep -q "yes"
 }
 
 echo "Starting monitor off script at $(date)"
 
 while true; do
-	if is_i3lock_running; then
-		idle_time=$(xprintidle)
-		echo "Idle time: $idle_time"
-		if [ "$idle_time" -ge 10000 ]; then # 10 seconds
-			echo "Turning off monitor at $(date)"
-			xset dpms force off
-		fi
-	else
-		echo "i3lock not running, exiting loop at $(date)"
-		break
-	fi
-	sleep 1
+    if is_screen_locked; then
+        idle_time=$(xprintidle)
+        echo "Idle time: $idle_time"
+        if [ "$idle_time" -ge 10000 ]; then # 10 seconds
+            echo "Turning off monitor at $(date)"
+            xset dpms force off
+        fi
+    else
+        echo "Screen not locked, exiting loop at $(date)"
+        break
+    fi
+    sleep 1
 done
+
