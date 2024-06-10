@@ -4,25 +4,32 @@ set -e
 timestamp=$(date +"%Y-%m-%d %H:%M:%S")
 
 dot() {
-  git -C "$DOTFILES" add .
-  git -C "$DOTFILES" commit -m "update through script - $timestamp"
-  git -C "$DOTFILES" push
+	git -C "$DOTFILES" add .
+	git -C "$DOTFILES" commit -m "update through script - $timestamp"
+	git -C "$DOTFILES" push
 	echo "$DOTFILES comitted"
 }
 
 sb() {
-  git -C "$SECOND_BRAIN" add .
-  git -C "$SECOND_BRAIN" commit -m "update through script - $timestamp"
-  git -C "$SECOND_BRAIN" push
+	git -C "$SECOND_BRAIN" add .
+	git -C "$SECOND_BRAIN" commit -m "update through script - $timestamp"
+	git -C "$SECOND_BRAIN" push
 	echo "$SECOND_BRAIN comitted"
 }
 
+nvim() {
+	git -C "$NVIM_DIR" add .
+	git -C "$NVIM_DIR" commit -m "update through script - $timestamp"
+	git -C "$NVIM_DIR" push
+	echo "$NVIM_DIR comitted"
+}
+
 case "$1" in
-dot | sb)
+dot | sb | nvim)
 	$1
 	;;
 *)
-	echo "valid commands: dot, sb" >&2
+	echo "valid commands: dot, sb, nvim" >&2
 	exit 1
 	;;
 esac
