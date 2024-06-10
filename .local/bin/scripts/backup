@@ -18,10 +18,10 @@ sb() {
 }
 
 nvim() {
-	git -C "$NVIM_DIR" add .
-	git -C "$NVIM_DIR" commit -m "update through script - $timestamp"
-	git -C "$NVIM_DIR" push
-	echo "$NVIM_DIR comitted"
+	git -C "$NEOVIM_DIR" add .
+	git -C "$NEOVIM_DIR" commit -m "update through script - $timestamp"
+	git -C "$NEOVIM_DIR" push
+	echo "$NEOVIM_DIR comitted"
 }
 
 case "$1" in
