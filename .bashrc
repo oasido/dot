@@ -1,3 +1,4 @@
+export LANG="en_US.UTF-8"
 export ZSH="$HOME/.oh-my-zsh"
 export SCRIPTS="$HOME/.local/bin/scripts"
 export PERSONAL="$HOME/personal"
@@ -10,6 +11,7 @@ export NVM_DIR="$HOME/.nvm"
 export GO="/usr/local/go/bin"
 export TURSO="$HOME/.turso"
 export DOTFILES="$HOME/dot"
+export HOMEBREW="/opt/homebrew/bin"
 
 if [[ $- == *i* ]]; then
 	bind '"\C-f":"tmux-sessionizer\n"'
@@ -84,6 +86,7 @@ fi
 export PATH="$SCRIPTS:$PATH"
 export PATH="$GO:$PATH"
 export PATH="$TURSO_PATH:$PATH"
+export PATH="$HOMEBREW:$PATH"
 
 # ~~~~~~~~~~~~~~~ NVM and Bash Completion ~~~~~~~~~~~~~~~~~~~~~~~~
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
@@ -116,7 +119,7 @@ if ! shopt -oq posix; then
 		. /etc/bash_completion
 	fi
 fi
-. "$HOME/.cargo/env"
+# . "$HOME/.cargo/env"
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
@@ -140,6 +143,14 @@ if [ -n "$force_color_prompt" ]; then
 	else
 		color_prompt=
 	fi
+fi
+
+# mac related
+if [ -f "$(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh" ]; then
+	__GIT_PROMPT_DIR=$(brew --prefix)/opt/bash-git-prompt/share
+	GIT_PROMPT_ONLY_IN_REPO=1
+	source "$(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh"
+	source ~/git-prompt.sh
 fi
 
 if [ "$color_prompt" = yes ]; then
