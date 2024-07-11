@@ -1,0 +1,3 @@
+#!/bin/env sh
+
+sleep 10 && pw-jack carla -n ~/Sync/audio-setup.carxp
