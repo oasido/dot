@@ -12,7 +12,7 @@ super + Return
     alacritty
 
 # Toggle microphone mute with specific source ID
-XF86Launch5
+Pause
     ~/.local/bin/scripts/toggle_mic
 
 # Lock & Screen off
