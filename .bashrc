@@ -85,6 +85,7 @@ fi
 # ~~~~~~~~~~~~~~~ Path Configuration ~~~~~~~~~~~~~~~~~~~~~~~~
 export PATH="$SCRIPTS:$PATH"
 export PATH="$GO:$PATH"
+export PATH="~/go/bin:$PATH"
 export PATH="$TURSO_PATH:$PATH"
 
 # ~~~~~~~~~~~~~~~ NVM and Bash Completion ~~~~~~~~~~~~~~~~~~~~~~~~
