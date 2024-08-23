@@ -13,6 +13,7 @@ export DOTFILES="$HOME/dot"
 export BLITZ="/run/media/oasido/blitz"
 export EXTERNAL="/run/media/oasido/External"
 
+
 if [[ $- == *i* ]]; then
 	bind '"\C-f":"tmux-sessionizer\n"'
 fi
@@ -85,8 +86,15 @@ fi
 # ~~~~~~~~~~~~~~~ Path Configuration ~~~~~~~~~~~~~~~~~~~~~~~~
 export PATH="$SCRIPTS:$PATH"
 export PATH="$GO:$PATH"
-export PATH="~/go/bin:$PATH"
+export PATH="$HOME/go/bin:$PATH"
 export PATH="$TURSO_PATH:$PATH"
+
+# NVIDIA
+export PATH="/usr/local/cuda-12.6/bin:$PATH"
+export PATH="/usr/local/TensorRT-10.3.0.26/bin:$PATH"
+export LD_LIBRARY_PATH="/usr/local/cuda-12.6/lib64:$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH="/usr/local/TensorRT-10.3.0.26:$LD_LIBRARY_PATH"
+# export TRT_LIBPATH="/usr/local/TensorRT-10.3.0.26"
 
 # ~~~~~~~~~~~~~~~ NVM and Bash Completion ~~~~~~~~~~~~~~~~~~~~~~~~
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
