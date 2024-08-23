@@ -90,11 +90,10 @@ export PATH="$HOME/go/bin:$PATH"
 export PATH="$TURSO_PATH:$PATH"
 
 # NVIDIA
-export PATH="/usr/local/cuda-12.6/bin:$PATH"
-export PATH="/usr/local/TensorRT-10.3.0.26/bin:$PATH"
-export LD_LIBRARY_PATH="/usr/local/cuda-12.6/lib64:$LD_LIBRARY_PATH"
-export LD_LIBRARY_PATH="/usr/local/TensorRT-10.3.0.26:$LD_LIBRARY_PATH"
-# export TRT_LIBPATH="/usr/local/TensorRT-10.3.0.26"
+export PATH="/usr/local/cuda-11.8/bin:$PATH"
+export PATH="/usr/local/TensorRT-8.5.3.1/bin:$PATH"
+export LD_LIBRARY_PATH="/usr/local/cuda-11.8/lib64:$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH="/usr/local/TensorRT-8.5.3.1/lib:$LD_LIBRARY_PATH"
 
 # ~~~~~~~~~~~~~~~ NVM and Bash Completion ~~~~~~~~~~~~~~~~~~~~~~~~
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
