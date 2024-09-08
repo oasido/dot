@@ -92,6 +92,7 @@ export PATH="$TURSO_PATH:$PATH"
 # NVIDIA
 export PATH="/usr/local/cuda-11.8/bin:$PATH"
 export PATH="/usr/local/TensorRT-8.6.1.6/bin:$PATH"
+export PATH="/usr/local/TensorRT-8.6.1.6/python/venv/lib/python3.11/site-packages/onnxruntime/capi:$PATH"
 export LD_LIBRARY_PATH="/usr/local/cuda-11.8/lib64:$LD_LIBRARY_PATH"
 export LD_LIBRARY_PATH="/usr/local/TensorRT-8.6.1.6/lib:$LD_LIBRARY_PATH"
 
@@ -207,6 +208,3 @@ case ":$PATH:" in
 esac
 # pnpm end
 
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/home/oasido/.rd/bin:$PATH"
-### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
