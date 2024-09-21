@@ -1,2 +1,3 @@
 #!/bin/sh
+notify-send --icon=gtk-info "audio-setup"
 pw-jack carla -n ~/Sync/audio-setup.carxp

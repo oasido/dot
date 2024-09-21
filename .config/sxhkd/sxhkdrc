@@ -16,6 +16,10 @@ super + Return
 Pause
     ~/.local/bin/scripts/toggle_mic
 
+# Restore audio setup
+alt + equal
+    ~/.local/bin/scripts/audio-setup
+
 # Lock & Screen off
 # super + Escape
 #     loginctl lock-session && sleep 5 && ~/.local/bin/scripts/idle_monitor &
