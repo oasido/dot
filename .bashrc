@@ -70,6 +70,7 @@ alias eb="vi $HOME/.bashrc"
 alias sz="source $HOME/.zshrc"
 alias sbr="source $HOME/.bashrc"
 alias heb="setxkbmap -layout us,il -option 'caps:ctrl_modifier,grp:alt_shift_toggle'"
+alias games="cd $EXTERNAL/Games"
 
 # lynx
 alias ?="duck"
