@@ -13,7 +13,6 @@ export DOTFILES="$HOME/dot"
 export BLITZ="/run/media/oasido/blitz"
 export EXTERNAL="/run/media/oasido/External"
 
-
 if [[ $- == *i* ]]; then
 	bind '"\C-f":"tmux-sessionizer\n"'
 fi
@@ -39,7 +38,7 @@ alias vim="nvim"
 alias c="clear"
 alias pn="pnpm"
 alias rm="trash"
-alias sysupdate="sudo zypper ref && sudo zypper update"
+alias sysupdate="sudo zypper ref && sudo zypper update && sudo zypper dup"
 alias lg="lazygit"
 alias flatls="flatpak list --app --columns=size,name|sort -g | grep MB"
 alias fpe="fzf --preview 'bat --color=always --style=numbers --line-range=:500 {}' | xargs nvim"
@@ -209,3 +208,7 @@ case ":$PATH:" in
 esac
 # pnpm end
 
+# >>> b2v4 autocomplete >>>
+# This section is managed by b2v4 . Manual edit may break automated updates.
+source /home/oasido/.bash_completion.d/b2v4
+# <<< b2v4 autocomplete <<<
