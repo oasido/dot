@@ -215,3 +215,7 @@ esac
 # This section is managed by b2v4 . Manual edit may break automated updates.
 source /home/oasido/.bash_completion.d/b2v4
 # <<< b2v4 autocomplete <<<
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
