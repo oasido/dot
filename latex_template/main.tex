@@ -9,7 +9,7 @@
 % \begin{english} & \end{english}
 % -------------------------
 
-\title{מתמטיקה בדידה ממ"ן 11} % Keep the title text here
+\title{Title}
 \author{אופק אסידו \textenglish{Ofek Asido}}
 \vspace{0.5cm}
 
@@ -37,135 +37,11 @@
 	\vspace{10cm}
 
 	{\large \hebrewfont
-		\today % This command prints the current date
+		\today
 	}
 
 	\vspace*{2em}
 \end{titlepage}
-
-\section*{שאלה 1}
-\begin{enumerate}
-	\item{
-	      $\forall x \forall y \left(x^2 - y^2 - (x+y)(x-y)\right)$
-	      \begin{align}
-		      \forall x \forall y & \left(x^2 - y^2 - (x+y)(x-y)\right)                         \\
-		      \forall x \forall y & \left(x^2 - y^2 - (x^2-y^2)\right)                          \\
-		      \forall x \forall y & (x^2 - y^2 - x^2 + y^2)                                     \\
-		      \forall x \forall y & (\cancel{x^2} - \cancel{y^2} - \cancel{x^2} + \cancel{y^2})
-	      \end{align}
-	      \text{אינו פסוק.}
-	      }
-	\item{
-	      $\exists x \exists y \left(x^2 - y^2 - (x+y)(x-y) \neq 0\right)$
-	      }
-	      \begin{align}
-		      \exists x \exists y & \left(x^2 - y^2 - (x+y)(x-y) \neq 0\right) \\*
-		      \notag \vdots                                                    \\
-		      \forall x \forall y & (0 \neq 0)
-	      \end{align}
-	      \text{פסוק.}
-\end{enumerate}
-
-\begin{solution}
-	סעיף ב'
-\end{solution}
-
-% --
-
-\section*{שאלה 2}
-\text{(*) לכל מספר חיובי יש שורש ריבועי.} \\
-\text{בהצרנה, נרשום כך:} \hspace{3.25cm}
-$\forall x  \left(x>0 \rightarrow \exists y(y^2 = x) \right)$
-
-\begin{enumerate}
-	\item{
-	      \text{שלילת הפסוק (*) שקולה לוגית ל:}
-	      \text{"אם מספר הוא שלילי אז אין לו שורש ריבועי"}
-	      \begin{align*}
-		      \forall x  \left(x<0 \rightarrow \neg \exists y(y^2 = x) \right)
-	      \end{align*}
-	      \text{טענה זו אינה שוללת את הפסוק, כנדרש.}
-	      }
-	\item{
-	      \text{שלילת הפסוק (*) שקולה לוגית ל:}
-	      \text{"קיים מספר חיובי שאינו שורש ריבועי של אף מספר"}
-	      \begin{align*}
-		      \exists x (x>0) \rightarrow \forall y (x^2 \neq y)             \\
-		      \forall x \left(x>0 \rightarrow \neg \exists y(x^2 = y)\right) \\
-		      \forall x \left(x>0 \rightarrow \exists y(x^2 \neq y)\right)   \\ TODO
-	      \end{align*}
-	      }
-\end{enumerate}
-
-\begin{solution}
-	סעיף ב'
-\end{solution}
-
-% --
-
-\section*{שאלה 3}
-\begin{enumerate}
-	\item{
-	      \text{הפסוק:}
-	      "$1+101+101^2+\hdots+101^{100}=0.01(101^{101}-1)$"
-	      \textbf{או}
-	      "$\sqrt{11.12^2+8.88^2}=20$"
-	      \text{הוא אמת.} \\
-	      \text{ראשית נבדוק את הטענה מצד ימין:}
-	      \begin{align}
-		       & 1+101^1+101^2=0.01(101^{3}-1)   &  & \times 100 \\
-		       & 100+101*100+101^2*100=101^{3}-1                 \\
-		       & 101^3-101^2*100-101*100-101=0                   \\
-		       & 101^3-101^2*100-101*100=101     &  & \div 101   \\
-		       & 101^2-101*100-100=1                             \\
-		       & 101(101-100)=101                                \\
-		       & \boxed{101=101} \\ \notag
-			   & \text{(נוסחה מסדרות הנדסיות..)}
-	      \end{align}
-	      מכיוון שהפסוק מורכב עם \textbf{"או"}, מספיק שרק צד אחד נכון. ולכן טענה זו נכונה.
-	      }
-	\item{
-	      \text{הפסוק:}
-	      "$1:(2:(3:4))=(1:2):(3:4)$
-	      \textbf{וגם}
-	      $1:(2:(3:4))=((1:2):3):4$"
-	      \text{הוא אמת.} \\
-	      \text{ראשית נבדוק את הטענה מצד ימין:}
-	      \begin{align}
-		       & \ddfrac{1}{\ddfrac{2}{\left(\ddfrac{3}{4}\right)}} = \ddfrac{1}{\ddfrac{2}{1}*\ddfrac{4}{3}} = \ddfrac{1}{\ddfrac{8}{3}} = \boxed{\ddfrac{3}{8}} \\[1em]
-		       & \ddfrac{\ddfrac{1}{2}}{\ddfrac{3}{4}} = \ddfrac{1}{2}*\ddfrac{4}{3} = \ddfrac{4}{6} = \boxed{\ddfrac{2}{3}}
-	      \end{align}
-	      צד ימין של הפסוק אינו מתקיים, ולכן אין טעם לבדוק את צד שמאל. מכיוון ששני חלקי הפסוק אמורים להתקיים, \textbf{"וגם"}. ולכן, הפסוק אינו אמת.
-	      }
-\end{enumerate}
-
-\begin{solution}
-	סעיף א'
-\end{solution}
-
-% --
-
-\section*{שאלה 4}
-
-% --
-
-\section*{שאלה 5}
-\begin{enumerate}
-	\item{
-	      \text{הפסוק הבא הוא אמת:}
-	      \hspace{1em}
-	      "$\left( (1<2) \textbf{ וגם } (2>3)\right) \textbf{אם }$, \textbf{אז}
-	      $(1=-1)$" \\
-		  \text{הטענה לא נכונה, מכיוון ש $2<3$.}
-	      }
-	\item{
-	      \text{הפסוק הבא הוא אמת:} \\
-		  "\textbf{לכל } $a,b,c,d$ ממשיים, \textbf{אם} $(a<b)$ \textbf{וגם} $(c<d)$, {\textbf{אז}} $(a<b)$ או $(c<d)$" \\
-		  \text{הפסוק נכון טאוטולוגית.}
-	  }
-\end{enumerate}
-
-% --
 
 \end{document}
 
