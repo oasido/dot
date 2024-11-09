@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# Save and restore Okular sessions
+set -e
+
+dump() {
+  for fd in /proc/$(ps -C okular -o pid= | sed -e's/\s//g')/fd/*; do
+    readlink "$fd"
+  done | grep '.pdf'
+}
+
+save() {
+  dump >~/.okular-session
+}
+
+# we use xdg-open instead of okular so that
+# it will open the files in new tabs instead
+# of new windows
+restore() {
+  while read file; do
+    xdg-open "$file"
+  done <~/.okular-session
+}
+
+case "$1" in
+save | restore)
+  $1
+  ;;
+*)
+  echo "valid commands: save, restore" >&2
+  exit 1
+  ;;
+esac
