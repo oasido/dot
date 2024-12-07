@@ -38,12 +38,12 @@ alias vim="nvim"
 alias c="clear"
 alias pn="pnpm"
 alias rm="trash"
-alias sysupdate="sudo zypper ref && sudo zypper update"
+alias sysupdate="brew update && brew upgrade && brew cleanup"
 alias lg="lazygit"
 alias flatls="flatpak list --app --columns=size,name|sort -g | grep MB"
 alias fpe="fzf --preview 'bat --color=always --style=numbers --line-range=:500 {}' | xargs nvim"
 alias fp="fzf --preview 'bat --style=numbers --color=always --line-range :500 {}'"
-alias getip="ip a | grep 192"
+alias getip="ifconfig | grep 192"
 alias mktar='tar -cvf'
 alias mkbz2='tar -cvjf'
 alias mkgz='tar -cvzf'
@@ -87,6 +87,7 @@ export PATH="$SCRIPTS:$PATH"
 export PATH="$GO:$PATH"
 export PATH="$TURSO_PATH:$PATH"
 export PATH="$HOMEBREW:$PATH"
+export JAVA_HOME=$(/usr/libexec/java_home)
 
 # ~~~~~~~~~~~~~~~ NVM and Bash Completion ~~~~~~~~~~~~~~~~~~~~~~~~
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
