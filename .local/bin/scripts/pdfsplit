@@ -19,7 +19,7 @@ if [ ! -f "$1" ]; then
     exit 1
 fi
 
-odd_output="${basename}_odd.${extension}"
+odd_output="${basename}_odd-1st.${extension}"
 even_output="${basename}_even.${extension}"
 
 qpdf "$1" --pages . 1-z:odd -- "$odd_output"
