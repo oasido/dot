@@ -1,0 +1,31 @@
+#!/bin/env bash
+
+if ! command -v qpdf &> /dev/null; then
+    echo "Error: qpdf is not installed. Please install it and try again."
+    exit 1
+fi
+
+if [ -z "$1" ]; then
+    echo "Usage: pdfsplit <filename>"
+    exit 1
+fi
+
+filename=$(basename -- "$1")
+extension="${filename##*.}"
+basename="${filename%.*}"
+
+if [ ! -f "$1" ]; then
+    echo "Error: File '$1' not found."
+    exit 1
+fi
+
+odd_output="${basename}_odd.${extension}"
+even_output="${basename}_even.${extension}"
+
+qpdf "$1" --pages . 1-z:odd -- "$odd_output"
+
+qpdf "$1" --pages . 1-z:even -- "$even_output"
+
+echo "Odd pages saved to: $odd_output"
+echo "Even pages saved to: $even_output"
+
