@@ -2,7 +2,7 @@
 
 sleep 5
 
-CLASS_NAMES=("REAPER" "anydesk" "telegram" "vesktop" "obsidian" "anydesk")
+CLASS_NAMES=("REAPER" "anydesk" "telegram" "vesktop" "obsidian")
 
 for CLASS_NAME in "${CLASS_NAMES[@]}"; do
   WINDOW_IDS=$(xdotool search --onlyvisible --classname "$CLASS_NAME")
@@ -12,3 +12,10 @@ for CLASS_NAME in "${CLASS_NAMES[@]}"; do
     xdotool windowminimize $WINDOW_ID
   done
 done
+
+ANYDESK_WINDOW_ID=$(xdotool search --onlyvisible --classname "anydesk")
+
+if [ -n "$ANYDESK_WINDOW_ID" ]; then
+  echo "Closing AnyDesk window with ID: $ANYDESK_WINDOW_ID"
+  xdotool windowclose $ANYDESK_WINDOW_ID
+fi
