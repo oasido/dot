@@ -1,0 +1,4 @@
+# For University
+CompileFlags:
+  Add: [-std=c90, -pedantic, -Wall, -Wextra]
+
