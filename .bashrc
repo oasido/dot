@@ -7,11 +7,10 @@ export UNI="$HOME/uni"
 export NEOVIM_DIR="$HOME/.config/nvim"
 export STARTUP="$HOME/.config/autostart"
 export NVM_DIR="$HOME/.nvm"
-export GO="/usr/local/go/bin"
 export TURSO="$HOME/.turso"
 export DOTFILES="$HOME/dot"
-export BLITZ="/run/media/oasido/blitz"
-export EXTERNAL="/run/media/oasido/External"
+export GO="/usr/local/go/bin"
+export HOMEBREW="/opt/homebrew/bin"
 
 if [[ $- == *i* ]]; then
 	bind '"\C-f":"tmux-sessionizer\n"'
@@ -38,7 +37,7 @@ alias vim="nvim"
 alias c="clear"
 alias pn="pnpm"
 alias rm="trash"
-alias sysupdate="sudo zypper ref && sudo zypper update && sudo zypper dup"
+alias sysupdate="brew update && brew upgrade && brew cleanup"
 alias lg="lazygit"
 alias flatls="flatpak list --app --columns=size,name|sort -g | grep MB"
 alias fpe="fzf --preview 'bat --color=always --style=numbers --line-range=:500 {}' | xargs nvim"
@@ -87,18 +86,11 @@ fi
 # ~~~~~~~~~~~~~~~ Path Configuration ~~~~~~~~~~~~~~~~~~~~~~~~
 export PATH="$SCRIPTS:$PATH"
 export PATH="$GO:$PATH"
+export PATH="$HOMEBREW:$PATH"
 export PATH="$HOME/go/bin:$PATH"
-export PATH="$TURSO_PATH:$PATH"
-
-# NVIDIA
-export PATH="/usr/local/cuda-11.8/bin:$PATH"
-export PATH="/usr/local/TensorRT-8.6.1.6/bin:$PATH"
-export PATH="/usr/local/TensorRT-8.6.1.6/python/venv/lib/python3.11/site-packages/onnxruntime/capi:$PATH"
-export LD_LIBRARY_PATH="/usr/local/cuda-11.8/lib64:$LD_LIBRARY_PATH"
-export LD_LIBRARY_PATH="/usr/local/TensorRT-8.6.1.6/lib:$LD_LIBRARY_PATH"
 
 # JAVA
-export JAVA_HOME="/usr/lib64/jvm/java-23-openjdk"
+export JAVA_HOME=$(/usr/libexec/java_home)
 
 # ~~~~~~~~~~~~~~~ NVM and Bash Completion ~~~~~~~~~~~~~~~~~~~~~~~~
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
@@ -131,7 +123,7 @@ if ! shopt -oq posix; then
 		. /etc/bash_completion
 	fi
 fi
-. "$HOME/.cargo/env"
+# . "$HOME/.cargo/env"
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
@@ -155,6 +147,14 @@ if [ -n "$force_color_prompt" ]; then
 	else
 		color_prompt=
 	fi
+fi
+
+# mac related
+if [ -f "$(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh" ]; then
+	__GIT_PROMPT_DIR=$(brew --prefix)/opt/bash-git-prompt/share
+	GIT_PROMPT_ONLY_IN_REPO=1
+	source "$(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh"
+	source ~/git-prompt.sh
 fi
 
 if [ "$color_prompt" = yes ]; then
@@ -212,21 +212,5 @@ case ":$PATH:" in
 esac
 # pnpm end
 
-# >>> b2v4 autocomplete >>>
-# This section is managed by b2v4 . Manual edit may break automated updates.
-source /home/oasido/.bash_completion.d/b2v4
-# <<< b2v4 autocomplete <<<
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/home/oasido/.rd/bin:$PATH"
-### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
