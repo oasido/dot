@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
-# Save and restore the state of tmux sessions and windows.
-# TODO: persist and restore the state & position of panes.
+# Save and restore the state of tmux sessions and windows, with optional group support
 set -e
+
+SESSION_DIR="${HOME}/.tmux-sessions"
+mkdir -p "$SESSION_DIR"
 
 dump() {
   local d=$'\t'
@@ -9,7 +11,8 @@ dump() {
 }
 
 save() {
-  dump >~/.tmux-session
+  local name="${1:-default}"
+  dump >"${SESSION_DIR}/${name}"
 }
 
 terminal_size() {
@@ -25,17 +28,24 @@ add_window() {
 }
 
 new_session() {
-  cd "$3" &&
-    tmux new-session -d -s "$1" -n "$2" $4
+  cd "$3" && tmux new-session -d -s "$1" -n "$2" $4
 }
 
 restore() {
+  local name="${1:-default}"
+  local file="${SESSION_DIR}/${name}"
+  [[ -f "$file" ]] || {
+    echo "No session found: $name" >&2
+    exit 1
+  }
+
   tmux start-server
   local count=0
-  local dimensions="$(terminal_size)"
+  local dimensions
+  dimensions="$(terminal_size)"
 
-  while IFS=$'\t' read session_name window_name dir; do
-    if [[ -d "$dir" && $window_name != "log" && $window_name != "man" ]]; then
+  while IFS=$'\t' read -r session_name window_name dir; do
+    if [[ -d "$dir" && "$window_name" != "log" && "$window_name" != "man" ]]; then
       if session_exists "$session_name"; then
         add_window "$session_name" "$window_name" "$dir"
       else
@@ -43,17 +53,27 @@ restore() {
         count=$((count + 1))
       fi
     fi
-  done <~/.tmux-session
+  done <"$file"
 
   echo "restored $count sessions"
 }
 
+list_sessions() {
+  ls "$SESSION_DIR"
+}
+
 case "$1" in
-save | restore)
-  $1
+save)
+  save "$2"
+  ;;
+restore)
+  restore "$2"
+  ;;
+ls)
+  list_sessions
   ;;
 *)
-  echo "valid commands: save, restore" >&2
+  echo "Usage: $0 {save|restore} [group-name] | ls" >&2
   exit 1
   ;;
 esac
