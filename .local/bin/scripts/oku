@@ -1,32 +1,51 @@
 #!/usr/bin/env bash
-# Save and restore Okular sessions
+# Save and restore Okular sessions, with optional group support
 set -e
 
+SESSION_DIR="${HOME}/.okular-sessions"
+DEFAULT_SESSION="${SESSION_DIR}/default"
+
+mkdir -p "$SESSION_DIR"
+
 dump() {
-  for fd in /proc/$(ps -C okular -o pid= | sed -e's/\s//g')/fd/*; do
+  for fd in /proc/$(ps -C okular -o pid= | sed -e 's/\s//g')/fd/*; do
     readlink "$fd"
-  done | grep '.pdf'
+  done | grep '\.pdf$'
 }
 
 save() {
-  dump >~/.okular-session
+  local name="${1:-default}"
+  dump >"${SESSION_DIR}/${name}"
 }
 
-# we use xdg-open instead of okular so that
-# it will open the files in new tabs instead
-# of new windows
 restore() {
-  while read file; do
-    xdg-open "$file"
-  done <~/.okular-session
+  local name="${1:-default}"
+  local file="${SESSION_DIR}/${name}"
+  [[ -f "$file" ]] || {
+    echo "No session found: $name" >&2
+    exit 1
+  }
+  while read -r pdf; do
+    xdg-open "$pdf"
+  done <"$file"
+}
+
+list_sessions() {
+  ls "$SESSION_DIR"
 }
 
 case "$1" in
-save | restore)
-  $1
+save)
+  save "$2"
+  ;;
+restore)
+  restore "$2"
+  ;;
+ls)
+  list_sessions
   ;;
 *)
-  echo "valid commands: save, restore" >&2
+  echo "Usage: oku {save|restore} [group-name] | ls" >&2
   exit 1
   ;;
 esac
