@@ -87,7 +87,6 @@ fi
 export PATH="$SCRIPTS:$PATH"
 export PATH="$GO:$PATH"
 export PATH="$HOME/go/bin:$PATH"
-export PATH="$TURSO_PATH:$PATH"
 
 # NVIDIA
 export PATH="/usr/local/cuda-11.8/bin:$PATH"
