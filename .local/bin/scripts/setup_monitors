@@ -1,5 +1,0 @@
-#!/bin/env bash
-
-xrandr --output DP-0 --mode 2560x1440 --rate 164.94 --primary
-xrandr --output DP-2 --mode 2560x1440 --rate 164.94 --left-of DP-0
-
