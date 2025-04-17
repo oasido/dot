@@ -1,0 +1,737 @@
+#!/usr/bin/env bash
+#
+# maclean
+#
+# A script to automate some relatively safe cleaning activities
+#
+# <3 cscs <3
+#
+set -eu
+
+##	Directories to be considered junk. Additional folders may be added.
+##	One path on each line. Please Use Caution. Targets will be deleted.
+
+_junk_dirs=(
+    # Ancient Adobe Flash
+    ~/.adobe/
+    ~/.macromedia/
+)
+
+## Begin Script ##
+
+EXIT_CODE=0
+
+## Exit if Root ##
+
+if [[ "$EUID" = 0 ]]; then
+    echo "Do not run as root."
+    exit
+fi
+
+## Help Function ##
+
+_mc_help() {
+    echo
+    echo " maclean"
+    echo
+    echo " A script to automate some relatively safe cleaning activities"
+    echo
+    echo " Usage: maclean [option]"
+    echo
+    echo " Extra Options:"
+    echo "   -h     Print this Help"
+    echo "   -j     Clean only the junk directories"
+    echo "   -d     Clean only the developer directories"
+    echo "   -c     Clean only the container directories"
+    echo "   -b     Clean only the few basic directories"
+    echo "   -a     Automatically affirm all Cleanings"
+    echo
+}
+
+## Junk Function ##
+
+_mc_junker() {
+    for dir in "${_junk_dirs[@]}"; do
+        if [[ -d "${dir}" ]]; then
+            echo -ne "\nClean up junk directories (y/N)? "
+
+            read -r response
+            if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+                rm -rf "${_junk_dirs[@]}" ;
+                echo "Done"
+            else
+                echo "Skipped"
+            fi
+            return 0
+        fi
+    done
+}
+
+## Thumbnail Cache ##
+
+_mc_thumbcache() {
+    echo -ne "\nClean thumbnail cache of files not accessed for 2 weeks (y/N)? "
+
+    read -r response
+    if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+        find ~/.cache/thumbnails -mindepth 1 -type d ! \( -readable -executable \) -prune -o -type f -atime +14 -print0 | xargs -r0 rm -rf ;
+        echo "Done"
+    else
+        echo "Skipped"
+    fi
+}
+
+## $HOME Cache ##
+
+_mc_homecache() {
+    echo -ne "\nClean \$HOME cache of files not accessed for 2 weeks (y/N)? "
+
+    read -r response
+    if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+        _ign_dirs=(
+            ! -path '*/BraveSoftware/*'
+            ! -path '*/chromium/*'
+            ! -path '*/chroots/*'
+            ! -path '*/com.github.tkashkin.gamehub/*'
+            ! -path '*/falkon/*'
+            ! -path '*/flatpak/*'
+            ! -path '*/go-build/*'
+            ! -path '*/google-chrome/*'
+            ! -path '*/manjaro-tools/*'
+            ! -path '*/midori/*'
+            ! -path '*/mozilla/*'
+            ! -path '*/pacaur/*'
+            ! -path '*/pamac/*'
+            ! -path '*/paru/*'
+            ! -path '*/pikaur/*'
+            ! -path '*/pip/*'
+            ! -path '*/thunderbird/*'
+            ! -path '*/trizen/*'
+            ! -path '*/vivaldi/*'
+            ! -path '*/yarn/*'
+            ! -path '*/yay/*'
+        )
+        find ~/.cache -mindepth 1 -type d ! \( -readable -executable \) -prune -o "${_ign_dirs[@]}" -type f -atime +14 -print0 | xargs -r0 rm -rf ;
+        echo "Done"
+    else
+        echo "Skipped"
+    fi
+}
+
+## Journal Logs ##
+
+_mc_journlogs() {
+    if [[ $(LANG=C journalctl --until=-2w | awk 'NR==1 {print $2; exit}') != "No" ]]; then
+        echo -ne "\nClean journal of any logs older than 2 weeks (y/N)? "
+
+        read -r response
+        if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+            journalctl --vacuum-time=2weeks >/dev/null 2>&1 ;
+            echo "Done"
+        else
+            echo "Skipped"
+        fi
+    fi
+}
+
+## Coredumps ##
+
+_mc_coredumps() {
+    if compgen -G "/var/lib/systemd/coredump/*" >/dev/null 2>&1 ; then
+        echo -ne "\nClean up ALL existing coredumps of crashes (y/N)? "
+
+        read -r response
+        if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+            sudo rm -rf /var/lib/systemd/coredump/* ;
+            echo "Done"
+        else
+            echo "Skipped"
+        fi
+    fi
+}
+
+## SNAP Data ##
+
+_mc_snapdata() {
+    if command -v snap >/dev/null 2>&1 ; then
+        echo -ne "\nClean old and disabled SNAP revisions (y/N)? "
+
+        read -r response
+        if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+
+            if ! systemctl is-active --quiet snapd.service && ! systemctl is-active --quiet snapd.socket; then
+                echo -ne "\nStart snapd.socket to list and remove SNAPs (y/N)? "
+
+                read -r response
+                if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+                    systemctl start snapd.socket ;
+                else
+                    echo "Skipped"
+                fi
+            fi
+            if systemctl is-active --quiet snapd.service || systemctl is-active --quiet snapd.socket; then
+                LANG=C snap list --all | awk '/disabled/{print $1, $3}' | while read -r snapname revision; do
+                    sudo snap remove "$snapname" --revision="$revision" ;
+                done ;
+                echo "Done"
+            fi
+        else
+            echo "Skipped"
+        fi
+    elif [[ -d ~/.snap || -d ~/snap || -d /var/lib/snapd ]]; then
+        echo -ne "\nClean up ALL SNAP application data (y/N)? "
+
+        read -r response
+        if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+            sudo rm -rf /var/lib/snapd ;
+            rm -rf ~/.snap ~/snap ;
+            echo "Done"
+        else
+            echo "Skipped"
+        fi
+    fi
+}
+
+## Flatpak Data ##
+
+_mc_flatdata() {
+    if command -v flatpak >/dev/null 2>&1 ; then
+        echo -ne "\nClean unused Flatpak REFs and application data (y/N)? "
+
+        read -r response
+        if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+
+            if [[ -d ~/.local/share/flatpak ]]; then
+                echo -ne "\nClean user flatpaks (y/N)? "
+
+                read -r response
+                if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+                    flatpak uninstall --unused --user
+                    flatpak repair --user ;
+                else
+                    echo -ne "Skipped\n"
+                fi
+            fi
+
+            if [[ -d /etc/flatpak/installations.d || -d /var/lib/flatpak ]]; then
+                echo -ne "\nClean system flatpaks (y/N)? "
+
+                read -r response
+                if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+
+                    flatpak uninstall --unused ;
+                    sudo flatpak repair ;
+                else
+                    echo -e "Skipped\n"
+                fi
+            fi
+
+            if [[ -d ~/.var/app ]]; then
+                echo -e "\nClear flatpak application data (y/N)? "
+
+                read -r response
+                if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+                    flatpak uninstall --delete-data ;
+                else
+                    echo -e "Skipped\n"
+                fi
+            fi
+            
+            if compgen -G "/var/tmp/flatpak-cache-*" >/dev/null 2>&1 ; then
+                echo -ne "\nClear flatpak cache (y/N)? "
+
+                read -r response
+                if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+                    sudo rm -rf /var/tmp/flatpak-cache-* ;
+                else
+                    echo -e "Skipped\n"
+                fi
+            fi            
+            echo "Done"
+        else
+            echo "Skipped"
+        fi
+    elif [[ -d ~/.var/app || -d ~/.cache/flatpak || -d ~/.local/share/flatpak || -d /var/lib/flatpak ]] || compgen -G "/var/tmp/flatpak-cache-*" >/dev/null 2>&1 ; then
+        echo -ne "\nClean up ALL Flatpak application data (y/N)? "
+
+        read -r response
+        if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+            sudo rm -rf /var/lib/flatpak /var/tmp/flatpak-cache-* ;
+            rm -rf ~/.var/app ~/.local/share/flatpak ~/.cache/flatpak ;
+            echo "Done"
+        else
+            echo "Skipped"
+        fi
+    fi
+}
+
+## Go Cache ##
+
+_mc_gocache() {
+    if command -v go >/dev/null 2>&1 ; then
+        echo -ne "\nClean up the local go build cache in \$HOME (y/N)? "
+
+        read -r response
+        if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+            if [[ -d ~/go/pkg && -n "$(find ~/go/pkg -mindepth 1)" ]]; then
+                echo -ne "\nClean ALL module download cache as well (y/N)? "
+
+                read -r response
+                if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+                    go clean -modcache ;
+                else
+                    echo -e "Skipped\n"
+                fi
+            fi
+            go clean -cache ;
+            echo "Done"
+        else
+            echo "Skipped"
+        fi
+    elif [[ -d ~/.cache/go-build || -d ~/go ]]; then
+        echo -ne "\nClean ALL go data from \$HOME (y/N)? "
+
+        read -r response
+        if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+            rm -rf ~/.cache/go-build ;
+            rm -rf ~/go ;
+            echo "Done"
+        else
+            echo "Skipped"
+        fi
+    fi
+}
+
+## Java Cache ##
+
+_mc_javacache() {
+    if [[ -d ~/.java/deployment/cache || -d ~/.config/java/deployment/cache ]]; then
+        echo -ne "\nClean ALL the java cache (y/N)? "
+
+        read -r response
+        if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+            rm -rf ~/.java/deployment/cache ;
+            rm -rf ~/.config/java/deployment/cache ;
+            echo "Done"
+        else
+            echo "Skipped"
+        fi
+    fi
+}
+
+## npm Cache ##
+
+_mc_npmcache() {
+    if command -v npm >/dev/null 2>&1 ; then
+        echo -ne "\nClean unneeded data and verify integrity of npm packages (y/N)? "
+
+        read -r response
+        if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+            echo -ne "\nClean ALL data from npm cache as well (y/N)? "
+
+            read -r response
+            if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+                npm cache clean --force ;
+            else
+                echo -e "Skipped\n"
+            fi
+            npm cache verify ;
+            echo "Done"
+        else
+            echo "Skipped"
+        fi
+    elif [[ -d ~/.npm ]]; then
+        echo -ne "\nClean ALL items from the npm cache (y/N)? "
+
+        read -r response
+        if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+            rm -rf ~/.npm ;
+            echo "Done"
+        else
+            echo "Skipped"
+        fi
+    fi
+}
+
+## Yarn Cache ##
+
+_mc_yarncache() {
+    if command -v yarn >/dev/null 2>&1 ; then
+        echo -ne "\nClean the yarn cache (y/N)? "
+
+        read -r response
+        if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+            yarn cache clean --mirror;
+            echo "Done"
+        else
+            echo "Skipped"
+        fi
+    elif [[ -d ~/.cache/yarn || -d ~/.yarncache ]]; then
+        echo -ne "\nClean ALL items from the yarn cache (y/N)? "
+
+        read -r response
+        if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+            rm -rf ~/.cache/yarn ;
+            rm -rf ~/.yarncache ;
+            echo "Done"
+        else
+            echo "Skipped"
+        fi
+    fi
+}
+
+## Rust Cargo ##
+
+_mc_rustcargo() {
+    if command -v cargo >/dev/null 2>&1 ; then
+        echo -ne "\nClean the rust cargo cache of all crate sources (y/N)? "
+
+        read -r response
+        if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+            if cargo -Z gc clean gc >/dev/null 2>&1 || rm -rf ~/.cargo/registry/{cache,src}; then
+                echo "Done"
+            fi
+        else
+            echo "Skipped"
+        fi
+    elif [[ -d ~/.cargo ]]; then
+        echo -ne "\nClean ALL items from the rust cargo cache (y/N)? "
+
+        read -r response
+        if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+            rm -rf ~/.cargo ;
+            echo "Done"
+        else
+            echo "Skipped"
+        fi
+    fi
+}
+
+## Ruby Gems ##
+
+_mc_rubygems() {
+    if command -v gem >/dev/null 2>&1 && [[ -d ~/.local/share/gem ]] ; then
+        echo -ne "\nClean up old versions of local user ruby gems (y/N)? "
+
+        read -r response
+        if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+            echo -ne "\nClean sources data from gem cache as well (y/N)? "
+
+            read -r response
+            if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+                gem sources -c ;
+            else
+                echo -e "Skipped\n"
+            fi
+            gem cleanup ;
+            echo "Done"
+        else
+            echo "Skipped"
+        fi
+    elif [[ -d ~/.local/share/gem ]]; then
+        echo -ne "\nClean up ALL local user ruby gems and data (y/N)? "
+
+        read -r response
+        if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+            rm -rf ~/.local/share/gem ;
+            echo "Done"
+        else
+            echo "Skipped"
+        fi
+    fi
+}
+
+## pip Cache ##
+
+_mc_pipcache() {
+    if command -v pip >/dev/null 2>&1 ; then
+        echo -ne "\nClean ALL items from the pip cache (y/N)? "
+
+        read -r response
+        if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+            pip cache purge ;
+            echo "Done"
+        else
+            echo "Skipped"
+        fi
+    elif [[ -d ~/.cache/pip ]]; then
+        echo -ne "\nClean ALL items from the pip cache (y/N)? "
+
+        read -r response
+        if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+            rm -rf ~/.cache/pip ;
+            echo "Done"
+        else
+            echo "Skipped"
+        fi
+    fi
+}
+
+## pkgfile Data ##
+
+_mc_pkgfiledata() {
+    if ! command -v pkgfile >/dev/null 2>&1 && [[ -d /var/cache/pkgfile ]] ; then
+        echo -ne "\nClean ALL items from the pkgfile cache (y/N)? "
+
+        read -r response
+        if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+            sudo rm -rf /var/cache/pkgfile ;
+            echo "Done"
+        else
+            echo "Skipped"
+        fi
+    fi
+}
+
+## PackageKit Data ##
+
+_mc_packagekitdata() {
+    if command -v pkcon >/dev/null 2>&1 ; then
+        echo -ne "\nClean ALL items from the PackageKit cache (y/N)? "
+
+        read -r response
+        if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+            sudo rm -rf /var/cache/PackageKit ;
+            sudo pkcon refresh force -c -1 ;
+            echo "Done"
+        else
+            echo "Skipped"
+        fi
+    elif [[ -d /var/cache/PackageKit || -d /var/lib/PackageKit ]]; then
+        echo -ne "\nClean up PackageKit cache and ALL data (y/N)? "
+
+        read -r response
+        if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+            sudo rm -rf /var/{cache,lib}/PackageKit ;
+            echo "Done"
+        else
+            echo "Skipped"
+        fi
+    fi
+}
+
+## Pamac Data ##
+
+_mc_pamacdata() {
+    if ! command -v pamac >/dev/null 2>&1 && [[ -d /var/tmp/pamac || -d /var/tmp/pamac-build-"$USER" ]]; then
+        echo -ne "\nClean up leftover Pamac temporary files (y/N)? "
+
+        read -r response
+        if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+            sudo rm -rf /var/tmp/pamac /var/tmp/pamac-build-"$USER" ;
+            echo "Done"
+        else
+            echo "Skipped"
+        fi
+    fi
+}
+
+## AUR Helper cache(s) ##
+
+_mc_aurhelpers() {
+    echo -ne "\nClean AUR Helper cache of ALL diff and package build files (y/N)? "
+
+    read -r response
+    if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+        _helpers=(
+            pacaur
+            pamac
+            paru
+            pikaur
+            trizen
+            yay
+        )
+        for _ahelper in "${_helpers[@]}"; do
+            if command -v "$_ahelper" >/dev/null 2>&1 ; then
+                if [[ $_ahelper = "paru" ]]; then
+                    yes | LC_ALL=C $_ahelper -Sccda >/dev/null 2>&1 ;
+                elif [[ $_ahelper = "pacaur" || $_ahelper = "pikaur" || $_ahelper = "trizen" || $_ahelper = "yay" ]]; then
+                    yes | LC_ALL=C $_ahelper -Scca >/dev/null 2>&1 ;
+                elif [[ $_ahelper = "pamac" ]]; then
+                    yes | LC_ALL=C $_ahelper clean -b >/dev/null 2>&1 ;
+                fi
+            fi
+        done
+        echo "Done"
+    else
+        echo "Skipped"
+    fi
+}
+
+## Package Cache and Repos ##
+
+_mc_pacmanunused() {
+    echo -ne "\nClean cache of uninstalled packages and unused repositories (y/N)? "
+
+    read -r response
+    if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+        yes | LC_ALL=C sudo pacman -Sc >/dev/null 2>&1 ;
+        echo "Done"
+    else
+        echo "Skipped"
+    fi
+}
+
+_mc_pacmancache() {
+    if command -v paccache >/dev/null 2>&1 && [[ $(LANG=C paccache -dk2 | awk 'NR==1 {print $2; exit}') != "no" ]]; then
+        echo -ne "\nClean installed package cache of all but 2 latest instances (y/N)? "
+
+        read -r response
+        if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+            paccache -rvk2 ;
+            echo "Done"
+        else
+            echo "Skipped"
+        fi
+    fi
+}
+
+## Orphan Packages ##
+
+_mc_orphans() {
+    if [[ $(pacman -Qdtq | head -c1 | wc -c) != 0 ]]; then
+        echo -ne "\nClean out all orphan packages (y/N)? "
+
+        read -r response
+        if [[ $response =~ ^(yes|y|Y|Yes)$ ]]; then
+            pacman -Qdtq | sudo pacman -Rns - || EXIT_CODE=$? ;
+            echo "Done"
+        else
+            echo "Skipped"
+        fi
+    fi
+}
+
+## pacnew/pacsave Files ##
+
+_mc_pacnews() {
+    if command -v pacdiff >/dev/null 2>&1 && [[ $(pacdiff -o | head -c1 | wc -c) != 0 ]]; then
+        echo -ne "\nAttention! Manual intervention required for the following files: \n"
+
+        pacdiff -o ;
+    fi
+}
+
+## Container Functs ##
+
+_mc_confuncts() {
+    _mc_snapdata
+
+    _mc_flatdata
+}
+
+## Developer Functs ##
+
+_mc_devfuncts() {
+    _mc_gocache
+
+    _mc_javacache
+
+    _mc_npmcache
+
+    _mc_yarncache
+
+    _mc_rustcargo
+
+    _mc_rubygems
+
+    _mc_pipcache
+}
+
+## Pacman Functs ##
+
+_mc_pacmanfuncts() {
+    ## Check for pacman before operations below ##
+    if command -v pacman >/dev/null 2>&1; then
+
+        _mc_aurhelpers
+
+        _mc_pacmanunused
+
+        _mc_pacmancache
+
+        _mc_orphans
+
+        _mc_pacnews
+
+    fi
+}
+
+## Extra Options ##
+
+while getopts ":abcdjh" option; do
+    case $option in
+        a) # automatic mode
+            sudo -k ;
+            echo -e "\nPerforming all cleanings automatically." ;
+            echo -e "\nThis is the final warning.\n" ;
+            if sudo -p "To continue enter the password for %p: " true; then
+                echo ""
+                yes | $0 ;
+            fi
+            exit ;;
+        b) # clean basics
+            _mc_junker ;
+            _mc_homecache
+            _mc_thumbcache
+            _mc_journlogs
+            _mc_coredumps
+            _mc_pkgfiledata
+            _mc_packagekitdata
+            _mc_pamacdata
+            _mc_pacmanfuncts
+            echo ""
+            exit ;;
+        c) # clean containers
+            _mc_confuncts ;
+            echo ""
+            exit ;;
+        d) # clean devs
+            _mc_devfuncts ;
+            echo ""
+            exit ;;
+        j) # clean junk
+            _mc_junker ;
+            echo ""
+            exit ;;
+        h) # display Help
+            _mc_help ;
+            exit ;;
+        \?) # invalid option
+            echo "Error: Invalid option" ;
+            exit ;;
+    esac
+done
+
+## Stay Home ##
+
+cd ~
+
+## Do Things ##
+
+_mc_junker
+
+_mc_homecache
+
+_mc_thumbcache
+
+_mc_journlogs
+
+_mc_coredumps
+
+_mc_confuncts
+
+_mc_devfuncts
+
+_mc_pkgfiledata
+
+_mc_packagekitdata
+
+_mc_pamacdata
+
+_mc_pacmanfuncts
+
+## Exit Script ##
+
+echo ""
+exit 0
