@@ -59,7 +59,7 @@ restore() {
 }
 
 list_sessions() {
-  ls -lS "$SESSION_DIR" | awk '{print $7, $6, $8, $9}'
+  ls -lt "$SESSION_DIR" | awk '{print $7, $6, $8, $9}'
 }
 
 case "$1" in
