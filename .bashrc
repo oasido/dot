@@ -7,7 +7,6 @@ export UNI="$HOME/uni"
 export NEOVIM_DIR="$HOME/.config/nvim"
 export STARTUP="$HOME/.config/autostart"
 export NVM_DIR="$HOME/.nvm"
-export TURSO="$HOME/.turso"
 export DOTFILES="$HOME/dot"
 export GO="/usr/local/go/bin"
 export HOMEBREW="/opt/homebrew/bin"
@@ -31,7 +30,7 @@ alias h="history | grep "
 alias topcpu="/bin/ps -eo pcpu,pid,user,args | sort -k 1 -r | head -10"
 alias f="find . | grep "
 alias countfiles="for t in files links directories; do echo \`find . -type \${t:0:1} | wc -l\` \$t; done 2> /dev/null"
-alias openports='netstat -nape --inet' # show open ports
+alias openports='ss -tulnpe'
 alias vi="nvim"
 alias vim="nvim"
 alias c="clear"
@@ -213,4 +212,3 @@ esac
 # pnpm end
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
-
