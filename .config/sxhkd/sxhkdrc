@@ -2,8 +2,8 @@ super + F1
     pkill -USR1 -x sxhkd
 
 super  + Return
-    alacritty
-    # konsole
+    konsole
+    # alacritty
 
 super + shift + Return
     dolphin
@@ -20,6 +20,3 @@ Pause
 alt + equal
     ~/.local/bin/scripts/audio-setup
 
-# Lock & Screen off
-# super + Escape
-#     loginctl lock-session && sleep 5 && ~/.local/bin/scripts/idle_monitor &

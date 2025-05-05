@@ -1,4 +1,3 @@
-export ZSH="$HOME/.oh-my-zsh"
 export SCRIPTS="$HOME/.local/bin/scripts"
 export PERSONAL="$HOME/personal"
 export SECOND_BRAIN="$HOME/sb"
@@ -36,7 +35,7 @@ alias vi="nvim"
 alias vim="nvim"
 alias c="clear"
 alias pn="pnpm"
-alias rm="trash"
+# alias rm="trash"
 alias sysupdate="sudo env ZYPP_CURL2=1 zypper ref && sudo zypper update && sudo env ZYPP_PCK_PRELOAD=1 zypper dup"
 # alias sysupdate="sudo zypper ref && sudo zypper update && sudo zypper dup"
 alias lg="lazygit"
@@ -64,9 +63,7 @@ alias dotc="cd $DOTFILES/.config && vi"
 # ricing
 alias es="vi $SCRIPTS"
 alias ev="cd $HOME/.config/nvim && vi"
-alias ez="vi $HOME/.zshrc"
 alias eb="vi $HOME/.bashrc"
-alias sz="source $HOME/.zshrc"
 alias sbr="source $HOME/.bashrc"
 alias heb="setxkbmap -layout us,il -option 'caps:ctrl_modifier,grp:alt_shift_toggle'"
 alias games="cd $EXTERNAL/Games"
@@ -90,14 +87,14 @@ export PATH="$GO:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 
 # NVIDIA
-export PATH="/usr/local/cuda-11.8/bin:$PATH"
-export PATH="/usr/local/TensorRT-8.6.1.6/bin:$PATH"
-export PATH="/usr/local/TensorRT-8.6.1.6/python/venv/lib/python3.11/site-packages/onnxruntime/capi:$PATH"
-export LD_LIBRARY_PATH="/usr/local/cuda-11.8/lib64:$LD_LIBRARY_PATH"
-export LD_LIBRARY_PATH="/usr/local/TensorRT-8.6.1.6/lib:$LD_LIBRARY_PATH"
+# export PATH="/usr/local/cuda-11.8/bin:$PATH"
+# export PATH="/usr/local/TensorRT-8.6.1.6/bin:$PATH"
+# export PATH="/usr/local/TensorRT-8.6.1.6/python/venv/lib/python3.11/site-packages/onnxruntime/capi:$PATH"
+# export LD_LIBRARY_PATH="/usr/local/cuda-11.8/lib64:$LD_LIBRARY_PATH"
+# export LD_LIBRARY_PATH="/usr/local/TensorRT-8.6.1.6/lib:$LD_LIBRARY_PATH"
 
 # JAVA
-export JAVA_HOME="/usr/lib64/jvm/java-23-openjdk"
+# export JAVA_HOME="/usr/lib64/jvm/java-23-openjdk"
 
 # ~~~~~~~~~~~~~~~ NVM and Bash Completion ~~~~~~~~~~~~~~~~~~~~~~~~
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
@@ -158,7 +155,7 @@ fi
 
 if [ "$color_prompt" = yes ]; then
 	PROMPT_COMMAND='PS1_CMD1=$(__git_ps1 "(%s) ")'
-	PS1='\[\e[38;5;40m\][\[\e[38;5;33m\]\u\[\e[0m\]@\[\e[38;5;250m\]\h\[\e[0m\] \W\[\e[38;5;40m\]]\[\e[0m\]\\$ \[\e[38;5;34m\]${PS1_CMD1}\[\e[0m\]'
+	PS1='\[\e[38;5;255m\][\[\e[38;5;33m\]\u\[\e[0m\]@\[\e[38;5;250m\]\h\[\e[0m\] \w\[\e[38;5;255m\]]\[\e[0m\]\\$ \[\e[38;5;34m\]${PS1_CMD1}\[\e[0m\]'
 else
 	PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
@@ -210,15 +207,6 @@ case ":$PATH:" in
 *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
-
-# >>> b2v4 autocomplete >>>
-# This section is managed by b2v4 . Manual edit may break automated updates.
-source /home/oasido/.bash_completion.d/b2v4
-# <<< b2v4 autocomplete <<<
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
