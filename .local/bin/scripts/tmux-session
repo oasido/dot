@@ -55,6 +55,8 @@ restore() {
     fi
   done <"$file"
 
+  tmux a
+
   echo "restored $count sessions"
 }
 
@@ -73,7 +75,7 @@ ls)
   list_sessions
   ;;
 *)
-  echo "Usage: $0 {save|restore} [group-name] | ls" >&2
+  echo "Usage: tmux-session {save|restore} [group-name] | ls" >&2
   exit 1
   ;;
 esac
