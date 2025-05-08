@@ -1,3 +1,35 @@
-#!/bin/sh
-notify-send --icon=gtk-info "audio-setup"
-pw-jack carla -n ~/Sync/audio-setup.carxp
+#!/bin/env sh
+
+RPP_PATH="$HOME/Sync/reaper.RPP"
+
+# Function to link REAPER to virtual mic
+link_ports() {
+  pw-link REAPER:out1 virtual-mic:input_FL
+  pw-link REAPER:out2 virtual-mic:input_FR
+  echo "Linked REAPER outputs to virtual-mic"
+}
+
+# If REAPER is already running, just link
+if pgrep -x reaper >/dev/null; then
+  echo "REAPER already running. Linking..."
+  link_ports
+  exit 0
+fi
+
+# Start REAPER with template
+echo "Starting REAPER..."
+pw-jack reaper -template "$RPP_PATH" &
+
+# Wait for REAPER ports to appear
+echo "Waiting for REAPER ports..."
+for i in $(seq 1 30); do
+  if pw-link -o | grep -q "REAPER:out1"; then
+    link_ports
+    exit 0
+  fi
+  sleep 1
+done
+
+echo "Timed out waiting for REAPER ports."
+exit 1
+

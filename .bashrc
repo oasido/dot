@@ -1,4 +1,3 @@
-export ZSH="$HOME/.oh-my-zsh"
 export SCRIPTS="$HOME/.local/bin/scripts"
 export PERSONAL="$HOME/personal"
 export SECOND_BRAIN="$HOME/sb"
@@ -30,7 +29,7 @@ alias h="history | grep "
 alias topcpu="/bin/ps -eo pcpu,pid,user,args | sort -k 1 -r | head -10"
 alias f="find . | grep "
 alias countfiles="for t in files links directories; do echo \`find . -type \${t:0:1} | wc -l\` \$t; done 2> /dev/null"
-alias openports='ss -tulnpe'
+alias openports="ss -tulnpe"
 alias vi="nvim"
 alias vim="nvim"
 alias c="clear"
@@ -62,9 +61,7 @@ alias dotc="cd $DOTFILES/.config && vi"
 # ricing
 alias es="vi $SCRIPTS"
 alias ev="cd $HOME/.config/nvim && vi"
-alias ez="vi $HOME/.zshrc"
 alias eb="vi $HOME/.bashrc"
-alias sz="source $HOME/.zshrc"
 alias sbr="source $HOME/.bashrc"
 alias heb="setxkbmap -layout us,il -option 'caps:ctrl_modifier,grp:alt_shift_toggle'"
 alias games="cd $EXTERNAL/Games"
@@ -122,7 +119,6 @@ if ! shopt -oq posix; then
 		. /etc/bash_completion
 	fi
 fi
-# . "$HOME/.cargo/env"
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
@@ -158,7 +154,7 @@ fi
 
 if [ "$color_prompt" = yes ]; then
 	PROMPT_COMMAND='PS1_CMD1=$(__git_ps1 "(%s) ")'
-	PS1='\[\e[38;5;40m\][\[\e[38;5;33m\]\u\[\e[0m\]@\[\e[38;5;250m\]\h\[\e[0m\] \W\[\e[38;5;40m\]]\[\e[0m\]\\$ \[\e[38;5;34m\]${PS1_CMD1}\[\e[0m\]'
+	PS1='\[\e[38;5;255m\][\[\e[38;5;33m\]\u\[\e[0m\]@\[\e[38;5;250m\]\h\[\e[0m\] \w\[\e[38;5;255m\]]\[\e[0m\]\\$ \[\e[38;5;34m\]${PS1_CMD1}\[\e[0m\]'
 else
 	PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
@@ -212,3 +208,7 @@ esac
 # pnpm end
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/oasido/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)

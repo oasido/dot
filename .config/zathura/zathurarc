@@ -62,4 +62,3 @@ set window-width 1400
 set selection-clipboard clipboard
 set render-loading "false"
 set scroll-step 50
-
