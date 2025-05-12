@@ -1,5 +1,5 @@
 export SCRIPTS="$HOME/.local/bin/scripts"
-export PERSONAL="$HOME/personal"
+export PERSONAL="$HOME/Documents/"
 export SECOND_BRAIN="$HOME/sb"
 export WORK="$HOME/work"
 export UNI="$HOME/uni"
@@ -87,11 +87,11 @@ export PATH="$GO:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 
 # NVIDIA
-# export PATH="/usr/local/cuda-11.8/bin:$PATH"
-# export PATH="/usr/local/TensorRT-8.6.1.6/bin:$PATH"
-# export PATH="/usr/local/TensorRT-8.6.1.6/python/venv/lib/python3.11/site-packages/onnxruntime/capi:$PATH"
-# export LD_LIBRARY_PATH="/usr/local/cuda-11.8/lib64:$LD_LIBRARY_PATH"
-# export LD_LIBRARY_PATH="/usr/local/TensorRT-8.6.1.6/lib:$LD_LIBRARY_PATH"
+export PATH=/usr/local/cuda-12.9/bin:$PATH
+export LD_LIBRARY_PATH=/usr/local/cuda-12.9/lib64:$LD_LIBRARY_PATH
+
+export PATH=/usr/local/TensorRT-10.0.0.0/bin:$PATH
+export LD_LIBRARY_PATH=/user/local/TensorRT-10.0.0.0/lib:$LD_LIBRARY_PATH
 
 # JAVA
 # export JAVA_HOME="/usr/lib64/jvm/java-23-openjdk"
