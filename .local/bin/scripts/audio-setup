@@ -4,9 +4,16 @@ RPP_PATH="$HOME/Sync/reaper.RPP"
 
 # Function to link REAPER to virtual mic
 link_ports() {
+  # Connect REAPER output to virtual mic
   pw-link REAPER:out1 virtual-mic:input_FL
   pw-link REAPER:out2 virtual-mic:input_FR
+
+  # Connect RODE NT-USB input to REAPER input
+  pw-link alsa_input.usb-RODE_Microphones_RODE_NT-USB-00.analog-stereo:capture_FL REAPER:in1
+  pw-link alsa_input.usb-RODE_Microphones_RODE_NT-USB-00.analog-stereo:capture_FR REAPER:in2
+
   echo "Linked REAPER outputs to virtual-mic"
+  echo "Linked RODE NT-USB to REAPER inputs"
 }
 
 # If REAPER is already running, just link
