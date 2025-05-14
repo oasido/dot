@@ -12,8 +12,13 @@ link_ports() {
   pw-link alsa_input.usb-RODE_Microphones_RODE_NT-USB-00.analog-stereo:capture_FL REAPER:in1
   pw-link alsa_input.usb-RODE_Microphones_RODE_NT-USB-00.analog-stereo:capture_FR REAPER:in2
 
+  # Also route REAPER outputs to reverse‐stereo playback
+  pw-link REAPER:out1 alsa_output.pci-0000_00_1f.3.analog-stereo:playback_FL
+  pw-link REAPER:out2 alsa_output.pci-0000_00_1f.3.analog-stereo:playback_FR
+
   echo "Linked REAPER outputs to virtual-mic"
   echo "Linked RODE NT-USB to REAPER inputs"
+  echo "Linked REAPER Headset inputs"
 }
 
 # If REAPER is already running, just link
