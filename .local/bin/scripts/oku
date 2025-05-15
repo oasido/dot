@@ -8,9 +8,16 @@ DEFAULT_SESSION="${SESSION_DIR}/default"
 mkdir -p "$SESSION_DIR"
 
 dump() {
-  for fd in /proc/$(ps -C okular -o pid= | sed -e 's/\s//g')/fd/*; do
-    readlink "$fd"
-  done | grep '\.pdf$'
+  # For each okular pid
+  for pid in $(ps -C okular -o pid=); do
+    # Skip empty
+    [[ -z "$pid" ]] && continue
+    # For each fd in that process
+    for fd in /proc/$pid/fd/*; do
+      target=$(readlink "$fd" 2>/dev/null) || continue
+      [[ $target == *.pdf ]] && echo "$target"
+    done
+  done
 }
 
 save() {
