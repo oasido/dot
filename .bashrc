@@ -153,6 +153,13 @@ if [ -n "$force_color_prompt" ]; then
 	fi
 fi
 
+# Source __git_ps1, openSUSE TW, only in vscode
+if [ "$TERM_PROGRAM" = "vscode" ]; then
+  if [ -f /run/host/usr/share/bash-completion/completions/git-prompt.sh ]; then
+    source /run/host/usr/share/bash-completion/completions/git-prompt.sh
+  fi
+fi
+
 if [ "$color_prompt" = yes ]; then
 	PROMPT_COMMAND='PS1_CMD1=$(__git_ps1 "(%s) ")'
 	PS1='\[\e[38;5;255m\][\[\e[38;5;33m\]\u\[\e[0m\]@\[\e[38;5;250m\]\h\[\e[0m\] \w\[\e[38;5;255m\]]\[\e[0m\]\\$ \[\e[38;5;34m\]${PS1_CMD1}\[\e[0m\]'

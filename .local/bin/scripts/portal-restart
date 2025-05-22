@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+systemctl --user restart pipewire wireplumber xdg-desktop-portal
+echo "Restarted pipewire, wireplumber, xdg-desktop-portal"

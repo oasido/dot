@@ -1,0 +1,68 @@
+include $HOME/.config/i3/theme
+include $HOME/.config/i3/workspaces
+
+set $mod Mod4
+set $primary "DP-2"
+set $secondary "DP-0"
+
+font pango:JetBrains Mono 12
+
+exec --no-startup-id dex --autostart --environment i3
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+exec --no-startup-id nm-applet
+exec --no-startup-id sxhkd
+# exec --no-startup-id picom
+exec --no-startup-id ~/.dot/.local/bin/scripts/audio-setup
+exec --no-startup-id setxkbmap -layout us,il -option 'caps:ctrl_modifier,grp:alt_shift_toggle'
+# exec --no-startup-id nitrogen --restore
+exec --no-startup-id greenclip daemon
+
+# Autostart applications
+exec --no-startup-id flatpak run dev.vencord.Vesktop
+exec --no-startup-id flatpak run org.telegram.desktop
+# exec --no-startup-id flatpak run me.kozec.syncthingtk
+# exec --no-startup-id flatpak run io.gitlab.librewolf-community
+exec --no-startup-id flatpak run com.spotify.Client 
+
+floating_modifier $mod
+
+# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+# bindsym $mod+r exec i3-input -F 'rename workspace to "%s"' -P 'New name: '
+
+for_window [class="^.*"] border pixel 2
+for_window [class="^.*"] client.focused
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # Pressing left will shrink the window’s width.
+        # Pressing right will grow the window’s width.
+        # Pressing up will shrink the window’s height.
+        # Pressing down will grow the window’s height.
+        bindsym j resize shrink width 10 px or 10 ppt
+        bindsym k resize grow height 10 px or 10 ppt
+        bindsym l resize shrink height 10 px or 10 ppt
+        bindsym semicolon resize grow width 10 px or 10 ppt
+# same bindings, but for the arrow keys
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape or $mod+r
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+
+# bar {
+#         # status_command i3status
+#        status_command SCRIPTS_DIR=~/.config/i3blocks/scripts i3blocks
+#        tray_output DP-2
+#        tray_padding 5
+#        separator_symbol "|"
+# }
+
+exec --no-startup-id $HOME/.config/polybar/launch.sh
+
