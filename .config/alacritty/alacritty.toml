@@ -13,7 +13,8 @@ TERM = "xterm-256color"
 size = 18
 
 [font.normal]
-family = "JetBrainsMono Nerd Font"
+family = "Iosevka Term Medium Extended"
+# family = "JetBrainsMono Nerd Font"
 
 [window]
 opacity = 1
