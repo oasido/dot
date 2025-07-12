@@ -68,10 +68,14 @@ alias sbr="source $HOME/.bashrc"
 alias heb="setxkbmap -layout us,il -option 'caps:ctrl_modifier,grp:alt_shift_toggle'"
 alias games="cd $EXTERNAL/Games"
 alias airplay="uxplay -p 5100"
+alias tb="nc termbin.com 9999"
 
 # lynx
 alias ?="duck"
 alias ??="google"
+
+# uni
+alias gcu="gcc -Wall -pedantic -ansi"
 
 if [ -f ~/.personal_aliases ]; then
 	. ~/.personal_aliases
