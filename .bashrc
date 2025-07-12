@@ -69,6 +69,7 @@ alias heb="setxkbmap -layout us,il -option 'caps:ctrl_modifier,grp:alt_shift_tog
 alias games="cd $EXTERNAL/Games"
 alias airplay="uxplay -p 5100"
 alias tb="nc termbin.com 9999"
+alias rcloneweb="rclone rcd --rc-web-gui"
 
 # lynx
 alias ?="duck"
