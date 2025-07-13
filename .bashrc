@@ -34,7 +34,7 @@ alias vi="nvim"
 alias vim="nvim"
 alias c="clear"
 alias pn="pnpm"
-alias rm="trash"
+# alias rm="trash"
 alias sysupdate="brew update && brew upgrade && brew cleanup"
 alias lg="lazygit"
 alias flatls="flatpak list --app --columns=size,name|sort -g | grep MB"
@@ -66,6 +66,7 @@ alias sbr="source $HOME/.bashrc"
 alias heb="setxkbmap -layout us,il -option 'caps:ctrl_modifier,grp:alt_shift_toggle'"
 alias games="cd $EXTERNAL/Games"
 alias airplay="uxplay -p 5100"
+alias tb="nc termbin.com 9999"
 
 # lynx
 alias ?="duck"
@@ -89,8 +90,8 @@ export PATH="$HOME/go/bin:$PATH"
 export JAVA_HOME=$(/usr/libexec/java_home)
 
 # ~~~~~~~~~~~~~~~ NVM and Bash Completion ~~~~~~~~~~~~~~~~~~~~~~~~
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 # ~~~~~~~~~~~~~~~ Editor Configuration ~~~~~~~~~~~~~~~~~~~~~~~~
 export EDITOR='nvim' # preferred editor for local and remote sessions
@@ -198,14 +199,6 @@ export LESS_TERMCAP_se=$'\E[0m'
 export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
-
-# pnpm
-export PNPM_HOME="/home/oasido/.local/share/pnpm"
-case ":$PATH:" in
-*":$PNPM_HOME:"*) ;;
-*) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
