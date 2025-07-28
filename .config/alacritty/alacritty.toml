@@ -2,19 +2,17 @@
 # mkdir -p ~/.config/alacritty/themes
 # git clone https://github.com/alacritty/alacritty-theme ~/.config/alacritty/themes
 
-general.import = [
-  "~/.config/alacritty/themes/catppuccin_mocca.toml"
-]
+general.import = ["~/.config/alacritty/themes/catppuccin_mocca.toml"]
 
 [env]
 TERM = "xterm-256color"
 
 [font]
-size = 18
-
-[font.normal]
-family = "Iosevka Term Medium Extended"
-# family = "JetBrainsMono Nerd Font"
+size = 20
+normal = { family = "Iosevka Term", style = "Medium" }
+bold = { family = "Iosevka Term", style = "Medium" }
+italic = { family = "Iosevka Term", style = "Medium" }
+bold_italic = { family = "Iosevka Term", style = "Medium" }
 
 [window]
 opacity = 1
