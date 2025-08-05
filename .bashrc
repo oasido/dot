@@ -34,6 +34,11 @@ fi
 export PATH="$SCRIPTS:$GO_ROOT:$HOME/go/bin:$CUDA_ROOT/bin:$TRT_ROOT/bin:$PNPM_HOME:$BUN_INSTALL/bin:$RD_HOME:$PATH"
 export LD_LIBRARY_PATH="$CUDA_ROOT/lib64:$TRT_ROOT/lib:$LD_LIBRARY_PATH"
 
+# Rust / Cargo ------------------------------------------------
+if [ -f "$HOME/.cargo/env" ]; then
+  . "$HOME/.cargo/env"
+fi
+
 # 3 ── Aliases & simple functions ────────────────────────────
 alias ll='ls -alF'
 alias la='ls -A'
