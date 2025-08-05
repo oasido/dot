@@ -1,3 +1,8 @@
+# PS4='+${EPOCHREALTIME} ${BASH_SOURCE##*/}:${LINENO}: '
+# exec 3>/tmp/bash.profile
+# BASH_XTRACEFD=3
+# set -x
+
 export SCRIPTS="$HOME/.local/bin/scripts"
 export PERSONAL="$HOME/Documents/"
 export SECOND_BRAIN="$HOME/sb"
@@ -5,7 +10,6 @@ export WORK="$HOME/work"
 export UNI="$HOME/uni"
 export NEOVIM_DIR="$HOME/.config/nvim"
 export STARTUP="$HOME/.config/autostart"
-export NVM_DIR="$HOME/.nvm"
 export GO="/usr/local/go/bin"
 export DOTFILES="$HOME/dot"
 export BLITZ="/run/media/oasido/blitz"
@@ -19,7 +23,6 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-alias da='date "+%Y-%m-%d %A %T %Z"'
 alias home='cd ~'
 alias cd..='cd ..'
 alias ..='cd ..'
@@ -100,10 +103,6 @@ export LD_LIBRARY_PATH=/user/local/TensorRT-10.0.0.0/lib:$LD_LIBRARY_PATH
 
 # JAVA
 # export JAVA_HOME="/usr/lib64/jvm/java-23-openjdk"
-
-# ~~~~~~~~~~~~~~~ NVM and Bash Completion ~~~~~~~~~~~~~~~~~~~~~~~~
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 
 # ~~~~~~~~~~~~~~~ Editor Configuration ~~~~~~~~~~~~~~~~~~~~~~~~
 export EDITOR='nvim' # preferred editor for local and remote sessions
@@ -222,11 +221,22 @@ case ":$PATH:" in
 esac
 # pnpm end
 
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+# lazy load nvm
+nvm() {
+  export NVM_DIR="$HOME/.nvm"
+  unset -f nvm
+  source "$NVM_DIR/nvm.sh"
+  nvm "$@"
+}
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && \. "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"                                       # This loads nvm
-[ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
+# lazy load conda
+conda() {
+  unset -f conda
+  # load Conda exactly once, then pass args through
+  source ~/miniconda3/etc/profile.d/conda.sh
+  conda "$@"
+}
+alias ca='conda activate'
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
