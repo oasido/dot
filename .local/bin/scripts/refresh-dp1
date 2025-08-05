@@ -1,4 +1,0 @@
-#!/bin/sh
-kscreen-doctor output.DP-1.disable
-sleep 1
-kscreen-doctor output.DP-1.enable

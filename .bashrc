@@ -22,7 +22,12 @@ export TRT_ROOT="/usr/local/TensorRT-10.0.0.0"
 export PNPM_HOME="$HOME/.local/share/pnpm"
 export BUN_INSTALL="$HOME/.bun"
 export RD_HOME="$HOME/.rd/bin"
-# export JAVA_HOME="/usr/lib64/jvm/java-23-openjdk"
+
+if [ -x /usr/libexec/java_home ]; then
+  export JAVA_HOME="$(/usr/libexec/java_home)"
+elif [ -d /usr/lib64/jvm/java-23-openjdk ]; then
+  export JAVA_HOME="/usr/lib64/jvm/java-23-openjdk"
+fi
 
 # 2 ── PATH ---------------------------------------------------
 # Compose once; avoid duplicates
@@ -121,6 +126,7 @@ PS1='\[\e[38;5;250m\][\u@\h \w]\[\e[0m\]$(__git_ps1 " (%s)")\$ '
 # 6 ── Misc touches ──────────────────────────────────────────
 export EDITOR='nvim'
 export VISUAL='nvim'
+export MAN_POSIXLY_CORRECT=1
 HISTSIZE=10000
 HISTFILESIZE=2000
 shopt -s histappend
