@@ -10,9 +10,9 @@ TERM = "xterm-256color"
 [font]
 size = 20
 normal = { family = "IosevkaTerm Nerd Font", style = "Medium" }
-bold = { family = "IosevkaTerm Nerd Font", style = "Medium" }
-italic = { family = "IosevkaTerm Nerd Font", style = "Medium" }
-bold_italic = { family = "IosevkaTerm Nerd Font", style = "Medium" }
+bold = { family = "IosevkaTerm Nerd Font", style = "Bold" }
+italic = { family = "IosevkaTerm Nerd Font", style = "Italic" }
+bold_italic = { family = "IosevkaTerm Nerd Font", style = "Bold Italic" }
 
 [window]
 opacity = 1
