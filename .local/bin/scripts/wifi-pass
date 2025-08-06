@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Show SSID and password for the currently connected network. Requires sudo.
 set -e
 
