@@ -12,3 +12,9 @@ fi
 if [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+if [ -d "$HOME/.rd/bin" ]; then
+  export PATH="$HOME/.rd/bin:$PATH"
+fi
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
