@@ -94,7 +94,17 @@ fi
 
 # 4 ── Lazy‑load heavy helpers ───────────────────────────────
 # --- nvm ----------------------------------------------------
+# Add global npm bin to PATH even with lazy nvm loading
 export NVM_DIR="$HOME/.nvm"
+if [ -d "$NVM_DIR/versions/node" ]; then
+  # Find the latest installed LTS version (most common default)
+  DEFAULT_NODE=$(find "$NVM_DIR/versions/node" -maxdepth 1 -type d -name "v*" | sort -V | tail -1 | xargs basename 2>/dev/null)
+
+  if [ -n "$DEFAULT_NODE" ] && [ -d "$NVM_DIR/versions/node/$DEFAULT_NODE/bin" ]; then
+    export PATH="$NVM_DIR/versions/node/$DEFAULT_NODE/bin:$PATH"
+  fi
+fi
+
 nvm() {
   unset -f nvm
   [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
@@ -143,3 +153,7 @@ shopt -s checkwinsize
 
 # Coloured GCC output
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36'
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/oasido/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
