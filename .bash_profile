@@ -13,8 +13,8 @@ if [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
 
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-if [ -d "$HOME/.rd/bin" ]; then
-  export PATH="$HOME/.rd/bin:$PATH"
-fi
-### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/opt/homebrew/share/google-cloud-sdk/path.bash.inc' ]; then . '/opt/homebrew/share/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/opt/homebrew/share/google-cloud-sdk/completion.bash.inc' ]; then . '/opt/homebrew/share/google-cloud-sdk/completion.bash.inc'; fi
