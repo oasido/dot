@@ -18,3 +18,9 @@ if [ -f '/opt/homebrew/share/google-cloud-sdk/path.bash.inc' ]; then . '/opt/hom
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/opt/homebrew/share/google-cloud-sdk/completion.bash.inc' ]; then . '/opt/homebrew/share/google-cloud-sdk/completion.bash.inc'; fi
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/oasido/.local/google-cloud-sdk/path.bash.inc' ]; then . '/home/oasido/.local/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/oasido/.local/google-cloud-sdk/completion.bash.inc' ]; then . '/home/oasido/.local/google-cloud-sdk/completion.bash.inc'; fi

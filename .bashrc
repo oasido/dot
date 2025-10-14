@@ -58,6 +58,7 @@ alias ff="fzf --preview 'bat --style=numbers --color=always --line-range :500 {}
 alias ffe="fzf --preview 'bat --color=always --style=numbers --line-range=:500 {}' | xargs nvim"
 alias airplay="uxplay -p 5100"
 alias tb="nc termbin.com 9999"
+alias ip="curl https://ipinfo.io/ip; echo"
 alias rcloneweb="rclone rcd --rc-web-gui"
 
 # cd shortcuts
@@ -138,7 +139,6 @@ elif [ -f /Users/$USER/git-prompt.sh ]; then
   . /Users/$USER/git-prompt.sh
 fi
 PS1='\[\e[38;5;250m\][\u@\h \w]\[\e[0m\]$(__git_ps1 " (%s)")\$ '
-# PS1='\[\e[38;5;255m\][\[\e[38;5;33m\]\u\[\e[0m\]@\[\e[38;5;250m\]\h\[\e[0m\] \w\[\e[38;5;255m\]]\[\e[0m\]\\$ \[\e[38;5;34m\]${PS1_CMD1}\[\e[0m\]'
 
 # 6 ── Misc touches ──────────────────────────────────────────
 export EDITOR='nvim'
@@ -153,7 +153,3 @@ shopt -s checkwinsize
 
 # Coloured GCC output
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36'
-
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/oasido/.rd/bin:$PATH"
-### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
