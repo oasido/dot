@@ -153,3 +153,6 @@ shopt -s checkwinsize
 
 # Coloured GCC output
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36'
+
+# Created by `pipx` on 2025-10-26 13:07:17
+export PATH="$PATH:/Users/oasido/dot/.local/bin"
