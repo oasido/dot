@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Save and restore Okular sessions, with optional group support
-set -e
+set -eu
 
 SESSION_DIR="${HOME}/.okular-sessions"
 DEFAULT_SESSION="${SESSION_DIR}/default"

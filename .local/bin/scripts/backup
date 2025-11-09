@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+set -eu
 
 timestamp=$(date +"%Y-%m-%d %H:%M:%S")
 
@@ -11,10 +11,10 @@ dot() {
 }
 
 sb() {
-	git -C "$SECOND_BRAIN" add .
-	git -C "$SECOND_BRAIN" commit -m "update through script - $timestamp"
-	git -C "$SECOND_BRAIN" push
-	echo "$SECOND_BRAIN comitted"
+	git -C "$SB" add .
+	git -C "$SB" commit -m "update through script - $timestamp"
+	git -C "$SB" push
+	echo "$SB comitted"
 }
 
 nvim() {

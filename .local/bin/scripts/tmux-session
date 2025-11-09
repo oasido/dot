@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Save and restore the state of tmux sessions and windows, with optional group support
-set -e
+set -eu
 
 SESSION_DIR="${HOME}/.tmux-sessions"
 mkdir -p "$SESSION_DIR"
