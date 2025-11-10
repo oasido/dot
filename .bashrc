@@ -135,8 +135,8 @@ fi
 # Simple coloured prompt with git branch (git‑prompt loads fast)
 if [ -f /usr/share/git/git-prompt.sh ]; then
   . /usr/share/git/git-prompt.sh
-elif [ -f /Users/"$USER"/git-prompt.sh ]; then
-  . Users/"$USER"/git-prompt.sh
+elif [ -f /Users/$USER/git-prompt.sh ]; then
+  . /Users/$USER/git-prompt.sh
 fi
 PS1='\[\e[38;5;250m\][\u@\h \w]\[\e[0m\]$(__git_ps1 " (%s)")\$ '
 
