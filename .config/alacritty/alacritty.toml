@@ -5,7 +5,7 @@
 general.import = ["~/.config/alacritty/themes/catppuccin_mocca.toml"]
 
 [font]
-size = 19
+size = 15
 normal = { family = "IosevkaTerm Nerd Font", style = "Medium" }
 bold = { family = "IosevkaTerm Nerd Font", style = "Bold" }
 italic = { family = "IosevkaTerm Nerd Font", style = "Italic" }

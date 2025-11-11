@@ -47,6 +47,7 @@ alias vi='nvim'
 alias vim='nvim'
 alias pn="pnpm"
 alias lg="lazygit"
+alias ld="lazydocker"
 alias c='clear'
 alias h="history | grep "
 alias topcpu="/bin/ps -eo pcpu,pid,user,args | sort -k 1 -r | head -10"
