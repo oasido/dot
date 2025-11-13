@@ -134,8 +134,8 @@ fi
 
 # 5 ── Prompt & colours ──────────────────────────────────────
 # Simple coloured prompt with git branch (git‑prompt loads fast)
-if [ -f /usr/share/git/git-prompt.sh ]; then
-  . /usr/share/git/git-prompt.sh
+if [ -f "/$HOME/.local/bin/lib/git-prompt.sh" ]; then
+  . "/$HOME/.local/bin/lib/git-prompt.sh"
   PS1='\[\e[38;5;250m\][\u@\h \w]\[\e[0m\]$(__git_ps1 " (%s)")\$ '
 else
   PS1='\[\e[38;5;250m\][\u@\h \w]\[\e[0m\]\$* '
