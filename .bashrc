@@ -23,7 +23,7 @@ export PNPM_HOME="$HOME/.local/share/pnpm"
 export BUN_INSTALL="$HOME/.bun"
 export RD_HOME="$HOME/.rd/bin"
 
-if [ -x /usr/libexec/java_home ]; then
+if [ -x /usr/libexec/java_home ] && /usr/libexec/java_home &>/dev/null; then
   export JAVA_HOME="$(/usr/libexec/java_home)"
 elif [ -d /usr/lib64/jvm/java-23-openjdk ]; then
   export JAVA_HOME="/usr/lib64/jvm/java-23-openjdk"
@@ -136,10 +136,10 @@ fi
 # Simple coloured prompt with git branch (git‑prompt loads fast)
 if [ -f /usr/share/git/git-prompt.sh ]; then
   . /usr/share/git/git-prompt.sh
-elif [ -f /Users/$USER/git-prompt.sh ]; then
-  . /Users/$USER/git-prompt.sh
+  PS1='\[\e[38;5;250m\][\u@\h \w]\[\e[0m\]$(__git_ps1 " (%s)")\$ '
+else
+  PS1='\[\e[38;5;250m\][\u@\h \w]\[\e[0m\]\$* '
 fi
-PS1='\[\e[38;5;250m\][\u@\h \w]\[\e[0m\]$(__git_ps1 " (%s)")\$ '
 
 # 6 ── Misc touches ──────────────────────────────────────────
 export EDITOR='nvim'
