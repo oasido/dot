@@ -68,6 +68,7 @@ alias work='cd $WORK'
 alias pers='cd $PERSONAL'
 alias uni='cd $UNI'
 alias sb='cd $SB'
+alias nvdir='cd $NEOVIM_DIR'
 alias dot='cd $DOTFILES'
 alias games="cd $EXTERNAL/Games"
 alias es='vi $SCRIPTS'
@@ -96,21 +97,12 @@ fi
 
 # 4 ── Lazy‑load heavy helpers ───────────────────────────────
 # --- nvm ----------------------------------------------------
-# Add global npm bin to PATH even with lazy nvm loading
 export NVM_DIR="$HOME/.nvm"
-if [ -d "$NVM_DIR/versions/node" ]; then
-  # Find the latest installed LTS version (most common default)
-  DEFAULT_NODE=$(find "$NVM_DIR/versions/node" -maxdepth 1 -type d -name "v*" | sort -V | tail -1 | xargs basename 2>/dev/null)
-
-  if [ -n "$DEFAULT_NODE" ] && [ -d "$NVM_DIR/versions/node/$DEFAULT_NODE/bin" ]; then
-    export PATH="$NVM_DIR/versions/node/$DEFAULT_NODE/bin:$PATH"
-  fi
-fi
 
 nvm() {
   unset -f nvm
-  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-  command nvm "$@"
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh" || [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  nvm "$@"
 }
 
 # --- conda --------------------------------------------------
@@ -128,9 +120,9 @@ if [[ $- == *i* ]]; then
 fi
 
 # --- bash‑completion (optional) -----------------------------
-if [[ ! $BASH_COMPLETION_STAGE && -f /usr/share/bash-completion/bash_completion ]]; then
-  . /usr/share/bash-completion/bash_completion
-fi
+[[ ! $BASH_COMPLETION_STAGE && -f /usr/share/bash-completion/bash_completion ]] && . /usr/share/bash-completion/bash_completion
+
+[[ -r "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh" ]] && . "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
 
 # 5 ── Prompt & colours ──────────────────────────────────────
 # Simple coloured prompt with git branch (git‑prompt loads fast)
