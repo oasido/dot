@@ -71,9 +71,6 @@ alias sb='cd $SB'
 alias nvdir='cd $NEOVIM_DIR'
 alias dot='cd $DOTFILES'
 alias games="cd $EXTERNAL/Games"
-alias es='vi $SCRIPTS'
-alias ev='cd $HOME/.config/nvim && nvim'
-alias ed='cd $HOME/dot && nvim'
 
 # utils
 alias topcpu='ps -eo pcpu,pid,user,args | sort -k1 -r | head'
