@@ -96,24 +96,9 @@ if [ -f ~/.work_aliases ]; then
   . ~/.work_aliases
 fi
 
-# 4 ── Lazy‑load heavy helpers ───────────────────────────────
-# --- nvm ----------------------------------------------------
-export NVM_DIR="$HOME/.nvm"
-
-nvm() {
-  unset -f nvm
-  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh" || [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-  nvm "$@"
-}
-
-# --- conda --------------------------------------------------
-conda() {
-  unset -f conda
-  if [ -f "$HOME/miniconda3/etc/profile.d/conda.sh" ]; then
-    . "$HOME/miniconda3/etc/profile.d/conda.sh"
-  fi
-  command conda "$@"
-}
+# 4 ── Lazy‑load heavy helper(s) ───────────────────────────────
+# --- fnm ----------------------------------------------------
+eval "$(fnm env --use-on-cd --shell bash)"
 
 # --- tmux-sessionizer ---------------------------------------
 if [[ $- == *i* ]]; then
