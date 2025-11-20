@@ -17,3 +17,4 @@ hs.screen.watcher.new(updateDockPosition):start()
 
 -- run once on startup
 updateDockPosition()
+

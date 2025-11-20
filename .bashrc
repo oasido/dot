@@ -3,6 +3,10 @@
 # 0 ── Exit early for non‑interactive shells ──────────────────
 [[ $- != *i* ]] && return
 
+# fix locale warnings
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
 # 1 ── Core environment variables ─────────────────────────────
 export SCRIPTS="$HOME/.local/bin/scripts"
 export PERSONAL="$HOME/Documents"
@@ -12,8 +16,8 @@ export UNI="$HOME/uni"
 export NEOVIM_DIR="$HOME/.config/nvim"
 export STARTUP="$HOME/.config/autostart"
 export DOTFILES="$HOME/dot"
-export BLITZ="/run/media/$(whoami)/blitz"
-export EXTERNAL="/run/media/$(whoami)/External"
+export BLITZ="/run/media/$USER/blitz"
+export EXTERNAL="/run/media/$USER/External"
 
 # Toolchains
 export GO_ROOT="/usr/local/go/bin"
@@ -115,11 +119,6 @@ conda() {
 if [[ $- == *i* ]]; then
   bind '"\C-f":"tmux-sessionizer\n"'
 fi
-
-# --- bash‑completion (optional) -----------------------------
-[[ ! $BASH_COMPLETION_STAGE && -f /usr/share/bash-completion/bash_completion ]] && . /usr/share/bash-completion/bash_completion
-
-[[ -r "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh" ]] && . "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
 
 # 5 ── Prompt & colours ──────────────────────────────────────
 # Simple coloured prompt with git branch (git‑prompt loads fast)
