@@ -2,3 +2,6 @@
 .work_aliases
 .config/alacritty/themes
 .DS_Store
+
+# Generated stow ignore file (platform-specific)
+.stow-local-ignore

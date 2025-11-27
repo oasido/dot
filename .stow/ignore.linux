@@ -1,0 +1,7 @@
+# macOS-specific files to ignore on Linux
+
+# macOS automation framework
+^\.hammerspoon$
+
+# macOS keyboard customization
+^\.config/karabiner$

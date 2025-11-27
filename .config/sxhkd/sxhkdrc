@@ -14,7 +14,7 @@ super + Return
 
 # Toggle microphone mute with specific source ID
 Pause
-    ~/.local/bin/scripts/toggle_mic
+    ~/.local/bin/scripts/toggle-mic
 
 # Restore audio setup
 alt + equal
