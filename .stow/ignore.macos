@@ -1,17 +1,8 @@
 # Linux-specific files to ignore on macOS
 
-# Linux audio system (PipeWire)
-^\.config/pipewire$
+# Linux-specific directories
+pipewire
+sxhkd
 
-# Linux hotkey daemon (Simple X Hotkey Daemon)
-^\.config/sxhkd$
-
-# Linux-specific scripts
-^\.local/bin/scripts/restart-plasma$
-^\.local/bin/scripts/portal-restart$
-^\.local/bin/scripts/oku$
-^\.local/bin/scripts/minimize-windows$
-^\.local/bin/scripts/audio-setup$
-
-# x86-64 Linux binary (incompatible with ARM macOS)
-^\.local/bin/ascii-image-converter$
+# x86-64 Linux binary
+ascii-image-converter

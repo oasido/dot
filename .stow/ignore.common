@@ -1,20 +1,23 @@
 # Common ignore patterns for all platforms
 
 # Git and version control
-^\.git$
-^\.gitignore$
-^\.gitmodules$
+.git
+.gitignore
+.gitmodules
 
 # macOS system files
-^\.DS_Store$
+.DS_Store
 
 # Backup files
-.*~$
-.*\.swp$
-.*\.bak$
+.*~
+.*\.swp
+.*\.bak
 
 # Stow metadata directory
-^\.stow$
+.stow
 
 # Documentation
-^README\.md$
+README.md
+
+# Absolute symlinks (stow doesn't handle these)
+claude

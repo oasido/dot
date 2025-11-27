@@ -2,15 +2,15 @@
 
 # Generate ignore file and stow
 stow: generate-ignore
-	stow -t ~ .
+	@stow -t ~ .
 
 # Unstow dotfiles
 unstow:
-	stow -D -t ~ .
+	@stow -D -t ~ .
 
 # Restow (useful after changes)
 restow: generate-ignore
-	stow -R -t ~ .
+	@stow -R -t ~ .
 
 # Just generate ignore file
 generate-ignore:
@@ -18,4 +18,4 @@ generate-ignore:
 
 # Clean generated files
 clean:
-	rm -f .stow-local-ignore
+	@rm -f .stow-local-ignore
