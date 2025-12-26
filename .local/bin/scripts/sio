@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+# save and restore sioyek sessions with optional group support
+set -eu
+
+# where we store session files
+SESSION_DIR="${HOME}/.sioyek-sessions"
+DEFAULT_SESSION="${SESSION_DIR}/default"
+mkdir -p "$SESSION_DIR"
+
+dump() {
+  # get all sioyek process ids
+  pgrep -x sioyek | while read -r pid; do
+    # skip if pid is empty
+    [[ -z "$pid" ]] && continue
+
+    # list all open files for this process
+    lsof -p "$pid" -Fn 2>/dev/null | while read -r line; do
+      # extract filename from lsof output (lines starting with 'n')
+      if [[ $line == n* ]]; then
+        # remove the 'n' prefix
+        file="${line:1}"
+        # only print pdf files
+        [[ $file == *.pdf ]] && echo "$file"
+      fi
+    done
+  done | sort -u # sort and remove duplicates
+}
+
+save() {
+  local name="${1:-default}"
+  # write all open pdfs to session file
+  dump >"${SESSION_DIR}/${name}"
+}
+
+restore() {
+  local name="${1:-default}"
+  local file="${SESSION_DIR}/${name}"
+
+  # check if session file exists
+  [[ -f "$file" ]] || {
+    echo "no session found: $name" >&2
+    exit 1
+  }
+
+  # open each pdf in the session file
+  while read -r pdf; do
+    # use open command for macos
+    open -a Sioyek "$pdf"
+  done <"$file"
+}
+
+list_sessions() {
+  # iterate through all session files sorted by modification time
+  find "$SESSION_DIR" -type f -print0 | xargs -0 stat -f "%m %N" | sort -rn | cut -d' ' -f2- | while read -r file; do
+    # extract just the session name from full path
+    local session
+    session=$(basename "$file")
+
+    # get file modification time and count of pdfs
+    local mtime
+    mtime=$(stat -f "%Sm" -t "%Y-%m-%d %H:%M" "$file")
+
+    local count
+    count=$(wc -l <"$file" | tr -d ' ')
+
+    # print session header
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "📚 Session: $session"
+    echo "   Modified: $mtime | PDFs: $count"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+    # print each pdf with line number
+    nl -w2 -s'. ' "$file" | sed 's/^/   /'
+    echo
+  done
+}
+
+# handle command line arguments
+case "${1:-}" in
+save)
+  save "${2:-default}"
+  ;;
+r | restore | open)
+  restore "${2:-default}"
+  ;;
+l | ls | list)
+  list_sessions
+  ;;
+*)
+  echo "usage: sio {save|restore|open} [session-name] | {l|ls|list}" >&2
+  exit 1
+  ;;
+esac

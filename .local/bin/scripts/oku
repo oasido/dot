@@ -3,7 +3,6 @@
 set -eu
 
 SESSION_DIR="${HOME}/.okular-sessions"
-DEFAULT_SESSION="${SESSION_DIR}/default"
 
 mkdir -p "$SESSION_DIR"
 
