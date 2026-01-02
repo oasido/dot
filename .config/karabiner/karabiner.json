@@ -4,17 +4,30 @@
             "complex_modifications": {
                 "rules": [
                     {
-                        "description": "Toggle Microphone",
+                        "description": "Change right_command to 3 modifiers combo (rcmd, ralt, rctrl), f19 when used alone",
                         "manipulators": [
                             {
                                 "from": {
-                                    "key_code": "f5"
+                                    "key_code": "right_command",
+                                    "modifiers": { "optional": ["any"] }
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "~/.local/bin/scripts/toggle-mic"
+                                        "key_code": "right_control",
+                                        "modifiers": ["right_command", "right_option"]
                                     }
                                 ],
+                                "to_if_alone": [{ "key_code": "f19" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Toggle Microphone",
+                        "manipulators": [
+                            {
+                                "from": { "key_code": "f5" },
+                                "to": [{ "shell_command": "~/.local/bin/scripts/toggle-mic" }],
                                 "type": "basic"
                             }
                         ]
@@ -33,28 +46,33 @@
                     "mouse_flip_vertical_wheel": true
                 },
                 {
-                    "identifiers": {
-                        "is_keyboard": true
-                    },
+                    "identifiers": { "is_keyboard": true },
                     "simple_modifications": [
                         {
-                            "from": {
-                                "key_code": "grave_accent_and_tilde"
-                            },
-                            "to": [
-                                {
-                                    "key_code": "non_us_pound"
-                                }
-                            ]
+                            "from": { "key_code": "grave_accent_and_tilde" },
+                            "to": [{ "key_code": "non_us_pound" }]
+                        }
+                    ]
+                },
+                {
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "is_pointing_device": true,
+                        "product_id": 59591,
+                        "vendor_id": 8137
+                    },
+                    "ignore": false,
+                    "simple_modifications": [
+                        {
+                            "from": { "key_code": "left_control" },
+                            "to": [{ "key_code": "left_command" }]
                         }
                     ]
                 }
             ],
             "name": "Default profile",
             "selected": true,
-            "virtual_hid_keyboard": {
-                "keyboard_type_v2": "iso"
-            }
+            "virtual_hid_keyboard": { "keyboard_type_v2": "iso" }
         }
     ]
 }
