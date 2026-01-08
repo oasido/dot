@@ -2,7 +2,11 @@
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
   # macOS - use osascript
-  current_volume=$(osascript -e 'input volume of (get volume settings)')
+  current_volume=$(osascript -e 'input volume of (get volume settings)' 2>/dev/null)
+
+  if [[ ! "$current_volume" =~ ^[0-9]+$ ]]; then
+    current_volume=0
+  fi
 
   # toggle mic volume
   if [ "$current_volume" -eq 0 ]; then
