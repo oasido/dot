@@ -1,26 +1,17 @@
 # dot
 
-## quick start
+## install
 
 ```bash
-# install dotfiles
-make stow
-
-# remove dotfiles
-make unstow
-
-# refresh after making changes
-make restow
+stow -t ~ .
 ```
 
-## what it does
+## uninstall
 
-- automatically detects your OS (macOS/Linux) and uses the right ignore patterns
-- creates symlinks from this repo to your home directory
-- keeps OS-specific files pretty organized
+```bash
+stow -D -t ~ .
+```
 
 ## requirements
 
 - [GNU Stow](https://www.gnu.org/software/stow/)
-  - macOS: `brew install stow`
-  - Linux: `bro...`

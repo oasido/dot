@@ -125,6 +125,35 @@ bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
 shopt -s checkwinsize
 
+# 7 ── Cool funcs ────────────────────────────────────────────
+compress_video() {
+  # check if input file exists
+  if [[ ! -f "$1" ]]; then
+    echo "error: file '$1' not found"
+    return 1
+  fi
+
+  # get input filename without extension
+  local input="$1"
+  local basename="${input%.*}"
+  local output="${basename}_compressed.mp4"
+
+  # detect os and set encoder accordingly
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    # macos - use videotoolbox hardware encoder
+    # hevc_videotoolbox is h265 with gpu acceleration
+    # q:v controls quality - lower is better (51-100 range)
+    ffmpeg -i "$input" -vcodec hevc_videotoolbox -q:v 50 -tag:v hvc1 "$output"
+  else
+    # linux/other - use software encoder
+    # libx265 is cpu-based but widely compatible
+    # crf 28 is your original quality setting
+    ffmpeg -i "$input" -vcodec libx265 -crf 28 "$output"
+  fi
+
+  echo "compressed: $output"
+}
+
 # Coloured GCC output
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36'
 
