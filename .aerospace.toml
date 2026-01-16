@@ -7,7 +7,12 @@ config-version = 2
 
 # You can use it to add commands that run after AeroSpace startup.
 # Available commands : https://nikitabobko.github.io/AeroSpace/commands
-after-startup-command = []
+after-startup-command = [
+    # JankyBorders has a built-in detection of already running process,
+    # so it won't be run twice on AeroSpace restart
+    # 'exec-and-forget borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=5.0',
+    'exec-and-forget borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=0',
+]
 
 # Start AeroSpace at login
 start-at-login = true
@@ -45,7 +50,7 @@ automatically-unhide-macos-hidden-apps = false
 # even when they are invisible.
 # This config version is only available since 'config-version = 2'
 # Fallback value (if you omit the key): persistent-workspaces = []
-persistent-workspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "T"]
+persistent-workspaces = ["1", "2", "3", "4", "C", "S", "T"]
 
 # A callback that runs every time binding mode changes
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -177,13 +182,21 @@ alt-shift-l = ['join-with right', 'mode main']
 2 = ['secondary']
 3 = ['main']
 4 = ['main']
-C = ['main']
-T = ['secondary']
-S = ['secondary']
+C = ['main']      # comms
+T = ['secondary'] # terminal
+S = ['main']      # spotify
 
 [[on-window-detected]]
 if.app-id = 'com.apple.finder'
 run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.google.Chrome'
+run = "move-node-to-workspace 1"
+
+[[on-window-detected]]
+if.app-id = 'app.zen-browser.zen'
+run = "move-node-to-workspace 2"
 
 [[on-window-detected]]
 if.app-id = 'com.apple.iCal'
