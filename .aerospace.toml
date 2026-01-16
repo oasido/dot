@@ -222,5 +222,5 @@ if.app-id = 'net.kovidgoyal.kitty'
 run = "move-node-to-workspace T"
 
 [[on-window-detected]]
-if.app- = 'com.spotify.client'
+if.app-id = 'com.spotify.client'
 run = "move-node-to-workspace S"
