@@ -190,6 +190,10 @@ if.app-id = 'com.apple.finder'
 run = 'layout floating'
 
 [[on-window-detected]]
+if.app-id = 'com.apple.ActivityMonitor'
+run = 'layout floating'
+
+[[on-window-detected]]
 if.app-id = 'com.google.Chrome'
 run = "move-node-to-workspace 1"
 
@@ -218,5 +222,5 @@ if.app-id = 'net.kovidgoyal.kitty'
 run = "move-node-to-workspace T"
 
 [[on-window-detected]]
-if.app-id = 'com.spotify.client'
+if.app- = 'com.spotify.client'
 run = "move-node-to-workspace S"
