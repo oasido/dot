@@ -27,8 +27,9 @@ export PNPM_HOME="$HOME/.local/share/pnpm"
 export BUN_INSTALL="$HOME/.bun"
 export RD_HOME="$HOME/.rd/bin"
 
-if [ -x /usr/libexec/java_home ] && /usr/libexec/java_home &>/dev/null; then
-  export JAVA_HOME="$(/usr/libexec/java_home)"
+# Java - macOS Homebrew or Linux
+if [ -d /opt/homebrew/opt/java ]; then
+  export JAVA_HOME="/opt/homebrew/opt/java"
 elif [ -d /usr/lib64/jvm/java-23-openjdk ]; then
   export JAVA_HOME="/usr/lib64/jvm/java-23-openjdk"
 fi
