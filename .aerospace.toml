@@ -46,7 +46,7 @@ automatically-unhide-macos-hidden-apps = false
 # even when they are invisible.
 # This config version is only available since 'config-version = 2'
 # Fallback value (if you omit the key): persistent-workspaces = []
-persistent-workspaces = ["1", "2", "3", "4", "C", "S", "T"]
+persistent-workspaces = ["1", "2", "3", "4", "C", "S", "T", "W"]
 
 # A callback that runs every time binding mode changes
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -140,6 +140,7 @@ alt-5 = 'workspace 5'
 alt-c = 'workspace C'
 alt-t = 'workspace T'
 alt-s = 'workspace S'
+alt-w = 'workspace W'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
 alt-shift-1 = 'move-node-to-workspace 1'
@@ -151,6 +152,7 @@ alt-shift-5 = 'move-node-to-workspace 5'
 alt-shift-c = 'move-node-to-workspace C'
 alt-shift-t = 'move-node-to-workspace T'
 alt-shift-s = 'move-node-to-workspace S'
+alt-shift-w = 'move-node-to-workspace W'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
 alt-tab = 'workspace-back-and-forth'
@@ -188,6 +190,7 @@ alt-shift-l = ['join-with right', 'mode main']
 C = ['main']      # comms
 T = ['secondary'] # terminal
 S = ['main']      # spotify
+W = ['secondary'] # work
 
 [[on-window-detected]]
 if.app-id = 'com.apple.finder'
@@ -199,7 +202,13 @@ run = 'layout floating'
 
 [[on-window-detected]]
 if.app-id = 'com.google.Chrome'
-run = "move-node-to-workspace 1"
+if.window-title-regex-substring = ' - Ofek \(evpower\.ai\)$'
+run = 'move-node-to-workspace W'
+
+[[on-window-detected]]
+if.app-id = 'com.google.Chrome'
+if.window-title-regex-substring = ' - Ofek$'
+run = 'move-node-to-workspace 1'
 
 [[on-window-detected]]
 if.app-id = 'app.zen-browser.zen'
