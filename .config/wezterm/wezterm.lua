@@ -1,6 +1,7 @@
 local wezterm = require("wezterm")
 local with_keybindings = require("keybindings")
 local with_looks = require("looks")
+local theme = require("lua/rose-pine").main
 
 -- This table will hold the configuration.
 local config = {}
@@ -11,7 +12,7 @@ if wezterm.config_builder then
 	config = wezterm.config_builder()
 end
 
-with_looks(config)
+with_looks(config, theme)
 with_keybindings(config)
 
 -- and finally, return the configuration to wezterm

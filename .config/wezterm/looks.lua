@@ -1,7 +1,8 @@
 local wezterm = require("wezterm")
 
-local function with_looks(config)
-	config.color_scheme = "Eighties (base16)"
+local function with_looks(config, theme)
+	config.colors = theme.colors()
+	config.window_frame = theme.window_frame()
 	config.hide_tab_bar_if_only_one_tab = true
 	config.window_decorations = "RESIZE"
 	config.window_padding = {
