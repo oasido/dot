@@ -17,12 +17,13 @@ local function with_looks(config, theme)
 	config.line_height = 1.2
 
 	config.font = wezterm.font({
-		family = "IosevkaTerm Nerd Font Mono",
+		-- family = "IosevkaTerm Nerd Font Mono",
+		family = "FiraCode Nerd Font Mono",
 	})
 
 	config.native_macos_fullscreen_mode = true
 
-	config.font_size = 21.0
+	config.font_size = 18.0
 end
 
 return with_looks
