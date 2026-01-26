@@ -23,7 +23,7 @@ local function with_looks(config, theme)
 
 	config.native_macos_fullscreen_mode = true
 
-	config.font_size = 18.0
+	config.font_size = 20.0
 end
 
 return with_looks
