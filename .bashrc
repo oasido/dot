@@ -45,8 +45,7 @@ if [ -f "$HOME/.cargo/env" ]; then
 fi
 
 # 3 ── Aliases & simple functions ────────────────────────────
-alias ll='ls -alF'
-alias la='ls -A'
+alias ls='eza'
 alias l='ls -CF'
 alias vi='nvim'
 alias vim='nvim'
@@ -55,7 +54,6 @@ alias lg="lazygit"
 alias ld="lazydocker"
 alias c='clear'
 alias h="history | grep "
-alias topcpu="/bin/ps -eo pcpu,pid,user,args | sort -k 1 -r | head -10"
 alias countfiles="for t in files links directories; do echo \`find . -type \${t:0:1} | wc -l\` \$t; done 2> /dev/null"
 alias openports="ss -tulnpe"
 alias sysupdate="sudo env ZYPP_CURL2=1 zypper ref && sudo zypper update && sudo env ZYPP_PCK_PRELOAD=1 zypper dup"
