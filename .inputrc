@@ -1,5 +1,11 @@
 $include /etc/inputrc
+
+# Completion settings
 set completion-ignore-case On
+set show-all-if-ambiguous On
+set colored-stats On
+set mark-symlinked-directories On
+set visible-stats On
 
 # Ctrl + Del/Backspace to delete word
 "\e[3;5~": shell-kill-word # ctrl+delete

@@ -8,6 +8,11 @@ if [ -x /opt/homebrew/bin/brew ]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
+# bash-completion from Homebrew
+if [ -r /opt/homebrew/etc/profile.d/bash_completion.sh ]; then
+  . /opt/homebrew/etc/profile.d/bash_completion.sh
+fi
+
 # homebrew (linux)
 if [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
@@ -24,6 +29,3 @@ if [ -f '/home/oasido/.local/google-cloud-sdk/path.bash.inc' ]; then . '/home/oa
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/home/oasido/.local/google-cloud-sdk/completion.bash.inc' ]; then . '/home/oasido/.local/google-cloud-sdk/completion.bash.inc'; fi
-
-# Created by `pipx` on 2025-10-26 13:07:17
-export PATH="$PATH:/Users/oasido/dot/.local/bin"
