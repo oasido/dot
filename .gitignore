@@ -1,7 +1,4 @@
 .personal_aliases
 .work_aliases
 .DS_Store
-
-# Generated stow ignore file (platform-specific)
-.stow-local-ignore
-.config/karabiner/automatic_backups
+/.config/karabiner/automatic_backups

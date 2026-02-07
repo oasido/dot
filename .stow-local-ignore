@@ -1,0 +1,16 @@
+.git
+.gitignore
+.gitmodules
+.DS_Store
+Brewfile
+README.md
+.claude
+.local/bin/claude
+
+# backup files
+.*~
+.*\.swp
+.*\.bak
+
+# stow packages
+linux
