@@ -1,8 +1,0 @@
-# Linux-specific files to ignore on macOS
-
-# Linux-specific directories
-pipewire
-sxhkd
-
-# x86-64 Linux binary
-ascii-image-converter

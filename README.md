@@ -1,15 +1,21 @@
 # dot
 
+personal dotfiles managed with GNU Stow.
+
 ## install
 
 ```bash
+cd ~/dot
 stow -t ~ .
+stow -t ~ linux    # linux-specific scripts and binaries
 ```
 
 ## uninstall
 
 ```bash
-stow -D -t ~ .
+cd ~/dot
+stow -D -t ~ linux  # remove linux-specific first
+stow -D -t ~ .      # then remove base
 ```
 
 ## brew
@@ -23,5 +29,5 @@ brew bundle dump
 
 ## requirements
 
-- [Homebrew](https://brew.sh/)
 - [GNU Stow](https://www.gnu.org/software/stow/)
+- [Homebrew](https://brew.sh/) (macOS only)

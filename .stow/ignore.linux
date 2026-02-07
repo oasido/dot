@@ -1,5 +1,0 @@
-# macOS-specific files to ignore on Linux
-
-# macOS-specific directories
-.hammerspoon
-karabiner
