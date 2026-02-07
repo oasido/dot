@@ -16,9 +16,10 @@ export NEOVIM_DIR="$HOME/.config/nvim"
 export STARTUP="$HOME/.config/autostart"
 export DOTFILES="$HOME/dot"
 
-# linux
-export BLITZ="/run/media/$USER/blitz"
-export EXTERNAL="/run/media/$USER/External"
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  export BLITZ="/run/media/$USER/blitz"
+  export EXTERNAL="/run/media/$USER/External"
+fi
 
 # toolchains
 export PNPM_HOME="$HOME/.local/share/pnpm"
@@ -26,9 +27,10 @@ export BUN_INSTALL="$HOME/.bun"
 
 export GO_ROOT="/usr/local/go/bin"
 
-# linux
-export CUDA_ROOT="/usr/local/cuda-12.9"
-export TRT_ROOT="/usr/local/TensorRT-10.0.0.0"
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  export CUDA_ROOT="/usr/local/cuda-12.9"
+  export TRT_ROOT="/usr/local/TensorRT-10.0.0.0"
+fi
 
 # java
 if [ -d /opt/homebrew/opt/java ]; then
@@ -45,16 +47,19 @@ PATH_ADDITIONS=""
 [ -d "$PNPM_HOME" ] && PATH_ADDITIONS="$PATH_ADDITIONS:$PNPM_HOME"
 [ -d "$BUN_INSTALL/bin" ] && PATH_ADDITIONS="$PATH_ADDITIONS:$BUN_INSTALL/bin"
 
-[ -d "$CUDA_ROOT/bin" ] && PATH_ADDITIONS="$PATH_ADDITIONS:$CUDA_ROOT/bin"
-[ -d "$TRT_ROOT/bin" ] && PATH_ADDITIONS="$PATH_ADDITIONS:$TRT_ROOT/bin"
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  [ -d "$CUDA_ROOT/bin" ] && PATH_ADDITIONS="$PATH_ADDITIONS:$CUDA_ROOT/bin"
+  [ -d "$TRT_ROOT/bin" ] && PATH_ADDITIONS="$PATH_ADDITIONS:$TRT_ROOT/bin"
+fi
 
 export PATH="$PATH_ADDITIONS:$PATH"
 
-# library paths
-LD_LIBRARY_ADDITIONS=""
-[ -d "$CUDA_ROOT/lib64" ] && LD_LIBRARY_ADDITIONS="$CUDA_ROOT/lib64:$LD_LIBRARY_ADDITIONS"
-[ -d "$TRT_ROOT/lib" ] && LD_LIBRARY_ADDITIONS="$LD_LIBRARY_ADDITIONS:$TRT_ROOT/lib"
-[ -n "$LD_LIBRARY_ADDITIONS" ] && export LD_LIBRARY_PATH="$LD_LIBRARY_ADDITIONS:$LD_LIBRARY_PATH"
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  LD_LIBRARY_ADDITIONS=""
+  [ -d "$CUDA_ROOT/lib64" ] && LD_LIBRARY_ADDITIONS="$CUDA_ROOT/lib64:$LD_LIBRARY_ADDITIONS"
+  [ -d "$TRT_ROOT/lib" ] && LD_LIBRARY_ADDITIONS="$LD_LIBRARY_ADDITIONS:$TRT_ROOT/lib"
+  [ -n "$LD_LIBRARY_ADDITIONS" ] && export LD_LIBRARY_PATH="$LD_LIBRARY_ADDITIONS:$LD_LIBRARY_PATH"
+fi
 
 ## rust/cargo
 if [ -f "$HOME/.cargo/env" ]; then
@@ -88,10 +93,13 @@ alias tb="nc termbin.com 9999"
 alias ip="curl https://ipinfo.io/ip; echo"
 alias rcloneweb="rclone rcd --rc-web-gui"
 
-# linux
-alias openports="ss -tulnpe"
-alias flatls="flatpak list --app --columns=size,name|sort -g | grep MB"
-alias airplay="uxplay -p 5100"
+## linux-specific
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  alias openports="ss -tulnpe"
+  alias flatls="flatpak list --app --columns=size,name|sort -g | grep MB"
+  alias airplay="uxplay -p 5100"
+  alias games="cd $EXTERNAL/Games"
+fi
 
 # cd shortcuts
 alias work='cd $WORK'
@@ -100,8 +108,6 @@ alias uni='cd $UNI'
 alias sb='cd $SB'
 alias nvdir='cd $NEOVIM_DIR'
 alias dot='cd $DOTFILES'
-# linux
-alias games="cd $EXTERNAL/Games"
 
 # uni / c helpers
 alias gcu='gcc -Wall -pedantic -ansi'
