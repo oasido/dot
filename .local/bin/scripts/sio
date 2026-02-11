@@ -7,7 +7,8 @@ SESSION_DIR="${HOME}/.sioyek-sessions"
 DEFAULT_SESSION="${SESSION_DIR}/default"
 mkdir -p "$SESSION_DIR"
 
-dump() {
+# helper: get all pdfs with open file handles via lsof
+get_paths_from_lsof() {
   # get all sioyek process ids
   pgrep -x sioyek | while read -r pid; do
     # skip if pid is empty
@@ -26,8 +27,79 @@ dump() {
   done | sort -u # sort and remove duplicates
 }
 
+# helper: get sioyek window titles via accessibility api
+get_sioyek_windows() {
+  osascript -e 'tell application "System Events" to tell process "sioyek" to get name of every window' 2>/dev/null
+}
+
+# helper: parse window titles and match to full paths
+match_windows_to_paths() {
+  local window_titles="$1"
+  local lsof_paths="$2"
+
+  # if no window titles, return empty
+  [[ -z "$window_titles" ]] && return
+
+  # window titles are comma-separated, e.g., "file1.pdf, file2.pdf"
+  # convert to array by splitting on comma
+  local IFS=','
+  local -a titles=($window_titles)
+
+  # for each window title (basename), find matching path in lsof results
+  for title in "${titles[@]}"; do
+    # trim whitespace
+    title=$(echo "$title" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+
+    # match against lsof paths (basename must match)
+    echo "$lsof_paths" | grep "/${title}$"
+  done | sort -u
+}
+
+# main dump function: get pdfs from visible sioyek windows
+dump() {
+  local lsof_paths
+  lsof_paths=$(get_paths_from_lsof)
+
+  # try to get window titles via accessibility api
+  local window_titles
+  if window_titles=$(get_sioyek_windows); then
+    [[ -n "${DEBUG:-}" ]] && echo "[DEBUG] Using window title API" >&2
+
+    # match window titles to full paths
+    local matched_paths
+    matched_paths=$(match_windows_to_paths "$window_titles" "$lsof_paths")
+
+    # if we got matches, return them
+    if [[ -n "$matched_paths" ]]; then
+      echo "$matched_paths"
+      return 0
+    fi
+  fi
+
+  # fallback: permission denied or no windows found
+  [[ -n "${DEBUG:-}" ]] && echo "[DEBUG] Falling back to lsof method" >&2
+
+  # check if we need to show permission message
+  if ! get_sioyek_windows >/dev/null 2>&1 && pgrep -x sioyek >/dev/null; then
+    echo "⚠️  Accessibility permission not granted - using fallback method (may include cached files)" >&2
+    echo "   To fix: System Settings → Privacy & Security → Accessibility → Add Terminal" >&2
+  fi
+
+  echo "$lsof_paths"
+}
+
 save() {
   local name="${1:-default}"
+  local debug_flag=""
+
+  # check for --debug flag
+  if [[ "$name" == "--debug" ]]; then
+    export DEBUG=1
+    name="${2:-default}"
+  elif [[ "${2:-}" == "--debug" ]]; then
+    export DEBUG=1
+  fi
+
   # write all open pdfs to session file
   dump >"${SESSION_DIR}/${name}"
 }
@@ -78,7 +150,7 @@ list_sessions() {
 # handle command line arguments
 case "${1:-}" in
 save)
-  save "${2:-default}"
+  save "${2:-default}" "${3:-}"
   ;;
 r | restore | open)
   restore "${2:-default}"
@@ -87,7 +159,7 @@ l | ls | list)
   list_sessions
   ;;
 *)
-  echo "usage: sio {save|restore|open} [session-name] | {l|ls|list}" >&2
+  echo "usage: sio {save|restore|open} [session-name] [--debug] | {l|ls|list}" >&2
   exit 1
   ;;
 esac
