@@ -2,3 +2,4 @@
 .work_aliases
 .DS_Store
 /.config/karabiner/automatic_backups
+/tmp

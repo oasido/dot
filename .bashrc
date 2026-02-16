@@ -182,6 +182,7 @@ sysupdate() {
     echo "unsupported OS: $OSTYPE"
     return 1
   fi
+  command -v tldr &>/dev/null && tldr --update
 }
 
 compress_video() {
