@@ -193,10 +193,6 @@ S = ['main']      # spotify
 W = ['secondary'] # work
 
 [[on-window-detected]]
-if.app-id = 'com.apple.finder'
-run = 'layout floating'
-
-[[on-window-detected]]
 if.app-id = 'com.apple.ActivityMonitor'
 run = 'layout floating'
 
@@ -215,8 +211,17 @@ if.app-id = 'app.zen-browser.zen'
 run = "move-node-to-workspace 1"
 
 [[on-window-detected]]
+if.app-id = 'info.sioyek.sioyek'
+run = "move-node-to-workspace 2"
+
+[[on-window-detected]]
 if.app-id = 'com.apple.iCal'
 run = "move-node-to-workspace 3"
+
+[[on-window-detected]]
+if.app-id = 'com.apple.finder'
+run = 'move-node-to-workspace 4'
+# run = ['layout floating', 'move-node-to-workspace 4']
 
 [[on-window-detected]]
 if.app-id = 'dev.vencord.vesktop'
