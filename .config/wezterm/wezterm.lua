@@ -12,6 +12,8 @@ if wezterm.config_builder then
 	config = wezterm.config_builder()
 end
 
+config.window_close_confirmation = "NeverPrompt"
+
 with_looks(config, theme)
 with_keybindings(config)
 
