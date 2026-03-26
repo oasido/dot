@@ -46,7 +46,7 @@ automatically-unhide-macos-hidden-apps = false
 # even when they are invisible.
 # This config version is only available since 'config-version = 2'
 # Fallback value (if you omit the key): persistent-workspaces = []
-persistent-workspaces = ["1", "2", "3", "4", "C", "S", "T", "W"]
+persistent-workspaces = ["1", "2", "3", "4", "C", "D", "G", "S", "T", "W"]
 
 # A callback that runs every time binding mode changes
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -138,6 +138,8 @@ alt-3 = 'workspace 3'
 alt-4 = 'workspace 4'
 alt-5 = 'workspace 5'
 alt-c = 'workspace C'
+alt-d = 'workspace D'
+alt-g = 'workspace G'
 alt-t = 'workspace T'
 alt-s = 'workspace S'
 alt-w = 'workspace W'
@@ -150,6 +152,8 @@ alt-shift-4 = 'move-node-to-workspace 4'
 alt-shift-5 = 'move-node-to-workspace 5'
 
 alt-shift-c = 'move-node-to-workspace C'
+alt-shift-d = 'move-node-to-workspace D'
+alt-shift-g = 'move-node-to-workspace G'
 alt-shift-t = 'move-node-to-workspace T'
 alt-shift-s = 'move-node-to-workspace S'
 alt-shift-w = 'move-node-to-workspace W'
@@ -187,10 +191,12 @@ alt-shift-l = ['join-with right', 'mode main']
 3 = ['main']
 4 = ['main']
 5 = ['main']
-C = ['main']      # comms
-T = ['secondary'] # terminal
-S = ['main']      # spotify
-W = ['secondary'] # work
+C = ['main']       # comms
+D = ['main']       # 3D
+G = ['secondary']  # gaming/steam
+T = ['secondary']  # terminal
+S = ['main']       # spotify
+W = ['secondary']  # work
 
 [[on-window-detected]]
 if.app-id = 'com.apple.ActivityMonitor'
@@ -242,3 +248,15 @@ run = "move-node-to-workspace T"
 [[on-window-detected]]
 if.app-id = 'com.spotify.client'
 run = "move-node-to-workspace S"
+
+[[on-window-detected]]
+if.app-id = 'org.blenderfoundation.blender'
+run = "move-node-to-workspace D"
+
+[[on-window-detected]]
+if.app-id = 'com.creality.crealityprint'
+run = "move-node-to-workspace D"
+
+[[on-window-detected]]
+if.app-id = 'com.valvesoftware.steam'
+run = "move-node-to-workspace G"
