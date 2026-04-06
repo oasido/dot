@@ -191,12 +191,12 @@ alt-shift-l = ['join-with right', 'mode main']
 3 = ['main']
 4 = ['main']
 5 = ['main']
-C = ['main']       # comms
-D = ['main']       # 3D
-G = ['secondary']  # gaming/steam
-T = ['secondary']  # terminal
-S = ['main']       # spotify
-W = ['secondary']  # work
+C = ['main']      # comms
+D = ['main']      # 3D
+G = ['secondary'] # gaming/steam
+T = ['secondary'] # terminal
+S = ['main']      # spotify
+W = ['secondary'] # work
 
 [[on-window-detected]]
 if.app-id = 'com.apple.ActivityMonitor'
@@ -221,6 +221,10 @@ if.app-id = 'info.sioyek.sioyek'
 run = "move-node-to-workspace 2"
 
 [[on-window-detected]]
+if.app-id = 'io.tailscale.ipn.macsys'
+run = "move-node-to-workspace 3"
+
+[[on-window-detected]]
 if.app-id = 'com.apple.finder'
 run = 'move-node-to-workspace 4'
 # run = ['layout floating', 'move-node-to-workspace 4']
@@ -240,6 +244,10 @@ run = "move-node-to-workspace C"
 [[on-window-detected]]
 if.app-id = 'com.tdesktop.Telegram'
 run = "move-node-to-workspace C"
+
+[[on-window-detected]]
+if.app-id = 'com.github.wez.wezterm'
+run = "move-node-to-workspace T"
 
 [[on-window-detected]]
 if.app-id = 'net.kovidgoyal.kitty'
