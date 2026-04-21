@@ -213,6 +213,9 @@ compress_video() {
   echo "compressed: $output"
 }
 
+# docker container doctor
+doc() { docker inspect "${1:?usage: doc <container>}" | jq -C '.[0].State.Health'; }
+
 # colored GCC output
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36'
 
