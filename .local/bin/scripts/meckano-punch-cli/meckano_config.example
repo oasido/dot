@@ -1,0 +1,13 @@
+# Meckano configuration file
+# Copy this file to .meckano_config in the same directory as the script
+# and fill in your credentials
+
+# Your Meckano login email
+username=mail@example.com
+
+# Your Meckano password
+password=insert_pass_here
+
+# Your task ID (find this by inspecting network requests when selecting a task)
+# This is the internal task ID, not the project code shown in the UI
+task_id=000000

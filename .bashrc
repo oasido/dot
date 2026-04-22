@@ -216,6 +216,12 @@ compress_video() {
 # docker container doctor
 doc() { docker inspect "${1:?usage: doc <container>}" | jq -C '.[0].State.Health'; }
 
+# work bundy clock
+MECKANO="$HOME/.local/bin/scripts/meckano-punch-cli/meckano_punch.py"
+punch-in() { uv run "$MECKANO" in "$@"; }
+punch-out() { uv run "$MECKANO" out "$@"; }
+punch-status() { uv run "$MECKANO" status "$@"; }
+
 # colored GCC output
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36'
 
