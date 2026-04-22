@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+CLOUD_DIR="/Users/oasido/Library/CloudStorage/MountainDuck-BackblazeB2/oasido/dotfiles-private"
+
+declare -A DEST=(
+    [".work_aliases"]="$HOME/.work_aliases"
+    [".personal_aliases"]="$HOME/.personal_aliases"
+    [".meckano_config"]="$HOME/dot/.local/bin/scripts/meckano-punch-cli/.meckano_config"
+)
+
+check_cloud() {
+    [[ -d "$CLOUD_DIR" ]] || { echo "error: cloud storage not mounted ($CLOUD_DIR)"; exit 1; }
+}
+
+pull() {
+    check_cloud
+    for f in "${!DEST[@]}"; do
+        local src="$CLOUD_DIR/$f"
+        if [[ -f "$src" ]]; then
+            cp "$src" "${DEST[$f]}"
+            echo "pulled $f -> ${DEST[$f]}"
+        else
+            echo "skipped $f (not in cloud)"
+        fi
+    done
+}
+
+push() {
+    check_cloud
+    mkdir -p "$CLOUD_DIR"
+    for f in "${!DEST[@]}"; do
+        local src="${DEST[$f]}"
+        if [[ -f "$src" ]]; then
+            cp "$src" "$CLOUD_DIR/$f"
+            echo "pushed $f"
+        else
+            echo "skipping $f (not found at $src)"
+        fi
+    done
+}
+
+case "${1:-}" in
+pull) pull ;;
+push) push ;;
+*) echo "usage: $(basename "$0") [pull|push]" ;;
+esac
