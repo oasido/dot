@@ -6,11 +6,13 @@ CLOUD_DIR="/Users/oasido/Library/CloudStorage/MountainDuck-BackblazeB2/oasido/do
 declare -A DEST=(
     [".work_aliases"]="$HOME/.work_aliases"
     [".personal_aliases"]="$HOME/.personal_aliases"
-    [".meckano_config"]="$HOME/dot/.local/bin/scripts/meckano-punch-cli/.meckano_config"
 )
 
 check_cloud() {
-    [[ -d "$CLOUD_DIR" ]] || { echo "error: cloud storage not mounted ($CLOUD_DIR)"; exit 1; }
+    [[ -d "$CLOUD_DIR" ]] || {
+        echo "error: cloud storage not mounted ($CLOUD_DIR)"
+        exit 1
+    }
 }
 
 pull() {
