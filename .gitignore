@@ -3,3 +3,4 @@
 .DS_Store
 /.config/karabiner/automatic_backups
 /tmp
+/.local/bin/claude
