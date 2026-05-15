@@ -4,7 +4,11 @@
 
 -- device names must match exactly as shown in audio midi setup utility
 local MIC_NAME = "Insta360 Link 2C"
-local HEADPHONES_NAME = "JBL Tune 720BT"
+local HEADPHONES_NAMES = {
+	"JBL Tune 720BT",
+	"Nothing Ear (open)",
+	"AirPods van Ofek",
+}
 
 -- delay before reacting to device events, lets coreaudio finish registering devices
 local SETTLE_DELAY = 1.0
@@ -19,10 +23,17 @@ local function findInputByName(name)
 	return nil
 end
 
--- locate an output device by exact name match, returns nil if absent
-local function findOutputByName(name)
+-- locate the first output device whose name is in the provided list
+local function findFirstMatchingOutput(names)
+	-- build a set keyed by name for o(1) lookup, avoids o(n*m) nested loop
+	local nameSet = {}
+	for _, n in ipairs(names) do
+		nameSet[n] = true
+	end
+
+	-- walk the current outputs once, return on the first hit
 	for _, device in ipairs(hs.audiodevice.allOutputDevices()) do
-		if device:name() == name then
+		if nameSet[device:name()] then
 			return device
 		end
 	end
@@ -35,7 +46,7 @@ local function checkAndSwitchInput()
 	local mic = findInputByName(MIC_NAME)
 
 	-- look for the jbl in the current output device list, this is our proxy for "headphones connected"
-	local headphones = findOutputByName(HEADPHONES_NAME)
+	local headphones = findFirstMatchingOutput(HEADPHONES_NAMES)
 
 	-- if either is missing the precondition fails, do nothing
 	if not mic or not headphones then
