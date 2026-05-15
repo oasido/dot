@@ -4,7 +4,6 @@ set -eu
 
 # where we store session files
 SESSION_DIR="${HOME}/.sioyek-sessions"
-DEFAULT_SESSION="${SESSION_DIR}/default"
 mkdir -p "$SESSION_DIR"
 
 # helper: get all pdfs with open file handles via lsof
@@ -121,6 +120,28 @@ restore() {
   done <"$file"
 }
 
+remove() {
+  local name="${1:-}"
+
+  # require an explicit name, we never delerte 'default'
+  [[ -z "$name" ]] && {
+    echo "usage: sio rm <session-name>" >&2
+    exit 1
+  }
+
+  local file="${SESSION_DIR}/${name}"
+
+  # bail out if the session file doesn't exist
+  [[ -f "$file" ]] || {
+    echo "no session found: $name" >&2
+    exit 1
+  }
+
+  # delete the session file and confirm
+  rm "$file"
+  echo "removed session: $name"
+}
+
 list_sessions() {
   # iterate through all session files sorted by modification time
   find "$SESSION_DIR" -type f -print0 | xargs -0 stat -f "%m %N" | sort -rn | cut -d' ' -f2- | while read -r file; do
@@ -137,9 +158,8 @@ list_sessions() {
 
     # print session header
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    echo "📚 Session: $session"
-    echo "   Modified: $mtime | PDFs: $count"
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "  session: $session"
+    echo "  modified: $mtime | PDFs: $count"
 
     # print each pdf with line number
     nl -w2 -s'. ' "$file" | sed 's/^/   /'
@@ -158,8 +178,11 @@ r | restore | open)
 l | ls | list)
   list_sessions
   ;;
+rm | remove | delete)
+  remove "${2:-}"
+  ;;
 *)
-  echo "usage: sio {save|restore|open} [session-name] [--debug] | {l|ls|list}" >&2
+  echo "usage: sio {save|restore|open|rm} [session-name] [--debug] | {l|ls|list}" >&2
   exit 1
   ;;
 esac
