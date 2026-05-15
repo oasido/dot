@@ -2,8 +2,7 @@ super + F1
     pkill -USR1 -x sxhkd
 
 super  + Return
-    alacritty
-    # konsole
+    wezterm
 
 super + shift + Return
     dolphin
