@@ -92,6 +92,7 @@ alias fpe="fzf --preview 'bat --color=always --style=numbers --line-range=:500 {
 alias tb="nc termbin.com 9999"
 alias ip="curl https://ipinfo.io/ip; echo"
 alias rcloneweb="rclone rcd --rc-web-gui"
+alias activeports="sudo lsof -nP -iTCP -sTCP:LISTEN"
 
 ## linux-specific
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
@@ -215,6 +216,11 @@ compress_video() {
 
 # docker container doctor
 doc() { docker inspect "${1:?usage: doc <container>}" | jq -C '.[0].State.Health'; }
+
+# specific port check
+port() {
+  sudo lsof -nP -iTCP -sTCP:LISTEN | grep "$1"
+}
 
 # colored GCC output
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36'
