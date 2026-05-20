@@ -1,0 +1,206 @@
+#!/usr/bin/env python3
+"""Print whether US equity markets (NYSE/Nasdaq) are currently open."""
+
+import sys
+from datetime import date, datetime, time, timedelta
+from functools import lru_cache
+from typing import NamedTuple
+from zoneinfo import ZoneInfo
+
+
+EASTERN_TIME = ZoneInfo("America/New_York")
+
+REGULAR_OPEN = time(9, 30)
+REGULAR_CLOSE = time(16, 0)
+EARLY_CLOSE = time(13, 0)
+
+# named weekday constants, since date.weekday() returns 0..6
+MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY = range(7)
+
+# juneteenth was federally recognized in 2021 and first observed by NYSE in 2022
+JUNETEENTH_FIRST_OBSERVED = 2022
+
+
+def easter_sunday(year: int) -> date:
+    """Return Easter Sunday using the Anonymous Gregorian algorithm.
+
+    Reference: https://en.wikipedia.org/wiki/Date_of_Easter
+    Variable names follow the canonical algorithm, the arithmetic is opaque by design.
+    """
+    a = year % 19
+    b, c = divmod(year, 100)
+    d, e = divmod(b, 4)
+    f = (b + 8) // 25
+    g = (b - f + 1) // 3
+    h = (19 * a + b - d - g + 15) % 30
+    i, k = divmod(c, 4)
+    l = (32 + 2 * e + 2 * i - h - k) % 7
+    m = (a + 11 * h + 22 * l) // 451
+    month = (h + l - 7 * m + 114) // 31
+    day = ((h + l - 7 * m + 114) % 31) + 1
+    return date(year, month, day)
+
+
+def nth_weekday_of_month(year: int, month: int, weekday: int, n: int) -> date:
+    """Return the nth occurrence of `weekday` in the given month."""
+    first = date(year, month, 1)
+    # days from the 1st to the first matching weekday
+    offset_to_first = (weekday - first.weekday()) % 7
+    return first + timedelta(days=offset_to_first + 7 * (n - 1))
+
+
+def last_weekday_of_month(year: int, month: int, weekday: int) -> date:
+    """Return the last occurrence of `weekday` in the given month."""
+    # walk back from the first day of the next month
+    first_of_next = date(year + 1, 1, 1) if month == 12 else date(year, month + 1, 1)
+    last_day = first_of_next - timedelta(days=1)
+    offset_back = (last_day.weekday() - weekday) % 7
+    return last_day - timedelta(days=offset_back)
+
+
+def observed_date(holiday: date) -> date:
+    """Apply NYSE's weekend-observation rule for a fixed-date holiday.
+
+    Saturday holidays move to the preceding Friday.
+    Sunday holidays move to the following Monday.
+    """
+    if holiday.weekday() == SATURDAY:
+        return holiday - timedelta(days=1)
+    if holiday.weekday() == SUNDAY:
+        return holiday + timedelta(days=1)
+    return holiday
+
+
+@lru_cache(maxsize=8)
+def market_holidays(year: int) -> frozenset[date]:
+    """All NYSE/Nasdaq full-closure holidays for the given year."""
+    holidays: set[date] = set()
+
+    # new year's day: if jan 1 is saturday, NYSE skips it entirely
+    # rather than shifting back to december of the prior year
+    jan_1 = date(year, 1, 1)
+    if jan_1.weekday() == SUNDAY:
+        holidays.add(jan_1 + timedelta(days=1))
+    elif jan_1.weekday() != SATURDAY:
+        holidays.add(jan_1)
+
+    holidays.add(nth_weekday_of_month(year, 1, MONDAY, 3))  # MLK Day
+    holidays.add(nth_weekday_of_month(year, 2, MONDAY, 3))  # Washington's Birthday
+    holidays.add(easter_sunday(year) - timedelta(days=2))  # Good Friday
+    holidays.add(last_weekday_of_month(year, 5, MONDAY))  # Memorial Day
+
+    if year >= JUNETEENTH_FIRST_OBSERVED:
+        holidays.add(observed_date(date(year, 6, 19)))  # Juneteenth
+
+    holidays.add(observed_date(date(year, 7, 4)))  # Independence Day
+    holidays.add(nth_weekday_of_month(year, 9, MONDAY, 1))  # Labor Day
+    holidays.add(nth_weekday_of_month(year, 11, THURSDAY, 4))  # Thanksgiving
+    holidays.add(observed_date(date(year, 12, 25)))  # Christmas
+
+    return frozenset(holidays)
+
+
+def is_trading_day(d: date) -> bool:
+    """A trading day is a weekday that isn't a full-closure holiday."""
+    return d.weekday() < SATURDAY and d not in market_holidays(d.year)
+
+
+def is_early_close_day(d: date) -> bool:
+    """Whether `d` is a 1pm-ET early close (must be a normal trading day)."""
+    if not is_trading_day(d):
+        return False
+    # the weekend and holiday filters above cover every edge case where these
+    # dates would otherwise be misclassified (e.g. dec 24 being observed christmas)
+    thanksgiving = nth_weekday_of_month(d.year, 11, THURSDAY, 4)
+    return d in {
+        thanksgiving + timedelta(days=1),  # black friday
+        date(d.year, 12, 24),  # christmas eve
+        date(d.year, 7, 3),  # day before independence day
+    }
+
+
+def session_close_time(d: date) -> time:
+    """Return the closing time for the trading session on `d`."""
+    return EARLY_CLOSE if is_early_close_day(d) else REGULAR_CLOSE
+
+
+def next_trading_day(after: date) -> date:
+    """Return the next trading day strictly after `after`."""
+    d = after + timedelta(days=1)
+    while not is_trading_day(d):
+        d += timedelta(days=1)
+    return d
+
+
+class MarketState(NamedTuple):
+    is_open: bool
+    reason: str  # 'open', 'weekend', 'holiday', 'pre-market', 'after-hours'
+    transition: datetime  # next close if open, next open if closed
+
+
+def market_state(now: datetime) -> MarketState:
+    """Determine the current market status and the next state transition."""
+    today = now.date()
+
+    # not a trading day -> next event is the next session open
+    if not is_trading_day(today):
+        reason = "weekend" if today.weekday() >= SATURDAY else "holiday"
+        next_open = datetime.combine(
+            next_trading_day(today), REGULAR_OPEN, EASTERN_TIME
+        )
+        return MarketState(False, reason, next_open)
+
+    # trading day, decide which side of the session window we're on
+    open_dt = datetime.combine(today, REGULAR_OPEN, EASTERN_TIME)
+    close_dt = datetime.combine(today, session_close_time(today), EASTERN_TIME)
+
+    if now < open_dt:
+        return MarketState(False, "pre-market", open_dt)
+    if now >= close_dt:
+        next_open = datetime.combine(
+            next_trading_day(today), REGULAR_OPEN, EASTERN_TIME
+        )
+        return MarketState(False, "after-hours", next_open)
+    return MarketState(True, "open", close_dt)
+
+
+def format_duration(td: timedelta) -> str:
+    """Compact human-readable duration, e.g. '2d 15h', '3h 25m', '45m'."""
+    total_seconds = int(td.total_seconds())
+    days, remainder = divmod(total_seconds, 86400)
+    hours, remainder = divmod(remainder, 3600)
+    minutes = remainder // 60
+    if days > 0:
+        return f"{days}d {hours}h"
+    if hours > 0:
+        return f"{hours}h {minutes}m"
+    return f"{minutes}m"
+
+
+def format_when(target: datetime, now: datetime) -> str:
+    """Format `target` relative to `now`, e.g. '09:30 ET', 'tomorrow 09:30 ET', 'Mon 09:30 ET'."""
+    days_away = (target.date() - now.date()).days
+    time_str = target.strftime("%H:%M ET")
+    if days_away == 0:
+        return time_str
+    if days_away == 1:
+        return f"tomorrow {time_str}"
+    return f"{target.strftime('%a')} {time_str}"
+
+
+def main() -> int:
+    now = datetime.now(EASTERN_TIME)
+    state = market_state(now)
+    when = format_when(state.transition, now)
+    duration = format_duration(state.transition - now)
+
+    if state.is_open:
+        print(f"OPEN, closes {when} (in {duration})")
+    else:
+        print(f"CLOSED ({state.reason}), opens {when} (in {duration})")
+
+    return 0 if state.is_open else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())
