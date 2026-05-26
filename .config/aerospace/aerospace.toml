@@ -189,17 +189,17 @@ alt-shift-l = ['join-with right', 'mode main']
 
 [workspace-to-monitor-force-assignment]
 # 'DELL P2725Q' @ work
-1 = ['DELL P2725Q', 'secondary']
+1 = ['secondary']
 2 = ['secondary']
 3 = ['main']
 4 = ['main']
 5 = ['main']
-C = ['main']                     # comms
-D = ['main']                     # 3D
-G = ['secondary']                # gaming/steam
-T = ['DELL P2725Q', 'secondary'] # terminal
-S = ['main']                     # spotify
-W = ['DELL P2725Q', 'secondary'] # work
+C = ['main']      # comms
+D = ['main']      # 3D
+G = ['secondary'] # gaming/steam
+T = ['secondary'] # terminal
+S = ['main']      # spotify
+W = ['secondary'] # work
 
 [[on-window-detected]]
 if.app-id = 'com.apple.ActivityMonitor'
