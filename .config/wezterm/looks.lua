@@ -1,8 +1,10 @@
 local wezterm = require("wezterm")
+local theme = require("lua/kanagawa")
+-- local theme = require("lua/rose-pine").main
 
-local function with_looks(config, theme)
-	config.colors = theme.colors()
-	config.window_frame = theme.window_frame()
+local function with_looks(config)
+	config.colors = type(theme.colors) == "function" and theme.colors() or theme.colors
+	config.force_reverse_video_cursor = theme.force_reverse_video_cursor
 	config.hide_tab_bar_if_only_one_tab = true
 	config.window_decorations = "RESIZE"
 	config.window_padding = {
