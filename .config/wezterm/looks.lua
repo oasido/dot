@@ -21,7 +21,33 @@ local function with_looks(config)
 	config.font = wezterm.font({
 		family = "IosevkaTerm Nerd Font Mono",
 		-- family = "JetBrainsMono Nerd Font",
+		weight = "Regular",
 	})
+
+	-- pin all intensity/style combos to prevent wezterm from
+	-- picking Light/Thin variants for dim (Half) or bold text
+	config.font_rules = {
+		{
+			intensity = "Half",
+			italic = false,
+			font = wezterm.font({ family = "IosevkaTerm Nerd Font Mono", weight = "Regular" }),
+		},
+		{
+			intensity = "Half",
+			italic = true,
+			font = wezterm.font({ family = "IosevkaTerm Nerd Font Mono", weight = "Regular", italic = true }),
+		},
+		{
+			intensity = "Bold",
+			italic = false,
+			font = wezterm.font({ family = "IosevkaTerm Nerd Font Mono", weight = "Bold" }),
+		},
+		{
+			intensity = "Bold",
+			italic = true,
+			font = wezterm.font({ family = "IosevkaTerm Nerd Font Mono", weight = "Bold", italic = true }),
+		},
+	}
 
 	config.native_macos_fullscreen_mode = true
 
