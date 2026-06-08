@@ -93,6 +93,7 @@ alias tb="nc termbin.com 9999"
 alias ip="curl https://ipinfo.io/ip; echo"
 alias rcloneweb="rclone rcd --rc-web-gui"
 alias activeports="sudo lsof -nP -iTCP -sTCP:LISTEN"
+alias fabric="fabric-ai"
 
 ## linux-specific
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
