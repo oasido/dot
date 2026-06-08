@@ -1,5 +1,6 @@
 local wezterm = require("wezterm")
-local theme = require("lua/kanagawa")
+local theme = require("lua/moonfly")
+-- local theme = require("lua/kanagawa")
 -- local theme = require("lua/rose-pine").main
 
 local function with_looks(config)
@@ -19,7 +20,8 @@ local function with_looks(config)
 	config.line_height = 1.2
 
 	config.font = wezterm.font({
-		family = "IosevkaTerm Nerd Font Mono",
+		family = "BlexMono Nerd Font Mono",
+		-- family = "BlexMono Nerd Font Mono",
 		-- family = "JetBrainsMono Nerd Font",
 		weight = "Regular",
 	})
@@ -30,22 +32,22 @@ local function with_looks(config)
 		{
 			intensity = "Half",
 			italic = false,
-			font = wezterm.font({ family = "IosevkaTerm Nerd Font Mono", weight = "Regular" }),
+			font = wezterm.font({ family = "BlexMono Nerd Font Mono", weight = "Regular" }),
 		},
 		{
 			intensity = "Half",
 			italic = true,
-			font = wezterm.font({ family = "IosevkaTerm Nerd Font Mono", weight = "Regular", italic = true }),
+			font = wezterm.font({ family = "BlexMono Nerd Font Mono", weight = "Regular", italic = true }),
 		},
 		{
 			intensity = "Bold",
 			italic = false,
-			font = wezterm.font({ family = "IosevkaTerm Nerd Font Mono", weight = "Bold" }),
+			font = wezterm.font({ family = "BlexMono Nerd Font Mono", weight = "Bold" }),
 		},
 		{
 			intensity = "Bold",
 			italic = true,
-			font = wezterm.font({ family = "IosevkaTerm Nerd Font Mono", weight = "Bold", italic = true }),
+			font = wezterm.font({ family = "BlexMono Nerd Font Mono", weight = "Bold", italic = true }),
 		},
 	}
 
