@@ -234,7 +234,7 @@ run = 'move-node-to-workspace 4'
 
 [[on-window-detected]]
 if.app-id = 'org.videolan.vlc'
-run = 'move-node-to-workspace 3'
+run = ['layout floating', 'move-node-to-workspace 3']
 
 [[on-window-detected]]
 if.app-id = 'com.apple.iCal'
