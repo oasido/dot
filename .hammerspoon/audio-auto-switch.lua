@@ -8,6 +8,7 @@ local HEADPHONES_NAMES = {
 	"JBL Tune 720BT",
 	"Nothing Ear (open)",
 	"AirPods van Ofek",
+	"ATH-M50xBT",
 }
 
 -- delay before reacting to device events, lets coreaudio finish registering devices
