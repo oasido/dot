@@ -20,9 +20,8 @@ local function with_looks(config)
 	config.line_height = 1.2
 
 	config.font = wezterm.font({
-		family = "BlexMono Nerd Font Mono",
 		-- family = "BlexMono Nerd Font Mono",
-		-- family = "JetBrainsMono Nerd Font",
+		family = "JetBrainsMono Nerd Font",
 		weight = "Regular",
 	})
 
@@ -32,28 +31,28 @@ local function with_looks(config)
 		{
 			intensity = "Half",
 			italic = false,
-			font = wezterm.font({ family = "BlexMono Nerd Font Mono", weight = "Regular" }),
+			font = wezterm.font({ family = "JetBrainsMono Nerd Font", weight = "Regular" }),
 		},
 		{
 			intensity = "Half",
 			italic = true,
-			font = wezterm.font({ family = "BlexMono Nerd Font Mono", weight = "Regular", italic = true }),
+			font = wezterm.font({ family = "JetBrainsMono Nerd Font", weight = "Regular", italic = true }),
 		},
 		{
 			intensity = "Bold",
 			italic = false,
-			font = wezterm.font({ family = "BlexMono Nerd Font Mono", weight = "Bold" }),
+			font = wezterm.font({ family = "JetBrainsMono Nerd Font", weight = "Bold" }),
 		},
 		{
 			intensity = "Bold",
 			italic = true,
-			font = wezterm.font({ family = "BlexMono Nerd Font Mono", weight = "Bold", italic = true }),
+			font = wezterm.font({ family = "JetBrainsMono Nerd Font", weight = "Bold", italic = true }),
 		},
 	}
 
 	config.native_macos_fullscreen_mode = true
 
-	config.font_size = 19.0
+	config.font_size = 20.0
 end
 
 return with_looks
