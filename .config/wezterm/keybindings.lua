@@ -1,7 +1,7 @@
 local wezterm = require("wezterm")
 
 local act = wezterm.action
-local tmux_binding = act.SendKey({ key = "s", mods = "CTRL" })
+local tmux_binding = act.SendKey({ key = "a", mods = "CTRL" }) -- a is my tmux prefix
 local escape_key = act.SendKey({ key = "Escape" })
 
 local function key(k)
@@ -10,7 +10,20 @@ end
 
 local function with_keybindings(config)
 	config.keys = {
-		{ mods = "SUPER|CTRL", key = "f", action = wezterm.action.ToggleFullScreen },
+		-- { mods = "SUPER|CTRL", key = "f", action = wezterm.action.ToggleFullScreen },
+		-- {
+		-- 	key = "f",
+		-- 	mods = "SUPER",
+		-- 	action = wezterm.action_callback(function(window, pane)
+		-- 		local proc = pane:get_foreground_process_name() or ""
+		-- 		if proc:find("tmux") then
+		-- 			-- prefix + [ enters copy-mode, then / starts search
+		-- 			window:perform_action(act.Multiple({ tmux_binding, key("["), key("/") }), pane)
+		-- 		else
+		-- 			window:perform_action(act.Search({ CaseInSensitiveString = "" }), pane)
+		-- 		end
+		-- 	end),
+		-- },
 
 		{ mods = "SUPER", key = "t", action = act.Multiple({ tmux_binding, key("c") }) },
 		{ mods = "SUPER", key = "w", action = act.Multiple({ tmux_binding, key("x") }) },
@@ -37,6 +50,13 @@ local function with_keybindings(config)
 		-- splits
 		{ mods = "SUPER", key = "d", action = act.Multiple({ tmux_binding, key("%") }) },
 		{ mods = "SUPER", key = "D", action = act.Multiple({ tmux_binding, key('"') }) },
+
+		-- search for the string "hash" matching regardless of case
+		{
+			key = "f",
+			mods = "SUPER",
+			action = act.Search({ CaseInSensitiveString = "" }),
+		},
 	}
 end
 
