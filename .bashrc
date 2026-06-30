@@ -223,6 +223,29 @@ port() {
   sudo lsof -nP -iTCP -sTCP:LISTEN | grep "$1"
 }
 
+# kimai csv -> keep date/from/to/duration/description, auto-name as YYYY-MM-<suffix>.csv
+# usage: kimai-trim ~/Downloads/export.csv          -> ~/Downloads/2026-06-Ofek.csv
+kimai-trim() {
+  local in="$1"             # input csv path
+  local suffix="${2:-Ofek}" # name suffix, defaults to Ofek
+  python3 - "$in" "$suffix" <<'PY'
+import csv, sys, os, collections
+inp, suffix = sys.argv[1], sys.argv[2]             # args passed from shell, no stdin redirection
+keep = ["Date", "From", "To", "Duration", "Description"]  # columns to keep by name
+with open(inp, newline="") as f:                   # open by path so it never waits on stdin
+    rows = list(csv.DictReader(f))                 # parse, handling quoted commas correctly
+months = collections.Counter(r["Date"][:7] for r in rows if r.get("Date"))  # YYYY-MM tally from data
+ym = months.most_common(1)[0][0] if months else "unknown"  # pick the dominant month
+out = os.path.join(os.path.dirname(os.path.abspath(inp)), f"{ym}-{suffix}.csv")  # output next to input
+with open(out, "w", newline="") as f:
+    w = csv.DictWriter(f, fieldnames=keep, extrasaction="ignore", lineterminator="\n")  # drop other cols, unix endings
+    w.writeheader()
+    for r in rows:
+        w.writerow({k: r.get(k, "") for k in keep})  # get() so a missing column wont crash it
+print(out)                                         # echo the path it wrote so you know where it landed
+PY
+}
+
 # colored GCC output
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36'
 
